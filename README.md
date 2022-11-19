@@ -1,3 +1,5 @@
+see `lib/tiny_explorer.rb`
+
 TODO:
 - everything below (configuratoin) is stored in a .tiny_explorer.config.yml
   file. the default configs that ship with the gem should be desgiend to work
