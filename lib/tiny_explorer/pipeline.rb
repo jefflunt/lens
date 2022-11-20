@@ -2,13 +2,21 @@ module TinyExplorer
   # this class implements a data pipeline through which log lines are passed,
   # resulting in output lines for display
   class Pipeline
-    # line_reader: an instance of LineReader, which contains the lines that
-    #   should be passed through this Pipeline
-    # steps: the list of steps to be run over the log lines from line_reader
-    #   if you want no processing, pass in an empty list `[]'
-    def initialize(steps)
+    # io: the IO object from which to read log lines
+    # steps: the list of procs to be run over the IO log lines, in the order in
+    #   which they should be run
+    def initialize(io, steps)
       @steps = steps
       @selected = []
+
+      Thread.new do
+        loop do
+          new_line = io.gets&.strip
+          break if new_line.nil?
+
+          @selected << new_line
+        end
+      end
     end
 
     def [](window)
@@ -16,6 +24,8 @@ module TinyExplorer
     end
 
     def new_line(l)
+      return unless l
+
       new_l = l
 
       steps.each do |s|
