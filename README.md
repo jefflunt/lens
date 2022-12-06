@@ -1,4 +1,4 @@
-see `lib/tiny_explorer.rb`
+a text editor
 
 TODO:
 - everything below (configuratoin) is stored in a .tiny_explorer.config.yml

@@ -1,11 +1,17 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    tiny_buff (1.0.0)
+    tiny_dot (2.0.0)
+    tiny_pipe (1.0.1)
 
 PLATFORMS
   x86_64-darwin-21
 
 DEPENDENCIES
+  tiny_buff
+  tiny_dot
+  tiny_pipe
 
 BUNDLED WITH
    2.3.14
