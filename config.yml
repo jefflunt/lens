@@ -9,6 +9,7 @@
 # all settings are loaded from the default, and then anything in
 # ~/.lens/config.yml will override the defaults
 keys:
+  exit_mode: :esc
   modes:
     cmd:
       C: change_to_eol
@@ -24,6 +25,7 @@ keys:
       p*: paste_from
       s: sel_start
       S: selb_start
+      t: transform_editor
       n: notes_toggle
       N: note_add
       m*: mark_start
@@ -35,10 +37,7 @@ keys:
       x: exit
       /: search_start
       ?: help_start
-    edit:
-      :esc: cmd_start
     pan: 
-      :esc: cmd_start
       h: pan_left
       j: pan_down
       k: pan_up
@@ -48,7 +47,6 @@ keys:
       K: pan_up
       L: pan_right
     sel:                  # text selection mode
-      :esc: cmd_start
       h: sel_more_left
       j: sel_more_down
       k: sel_more_up
@@ -67,7 +65,6 @@ keys:
       p: version_preview
       j: version_jump_to
     win:
-      :esc: cmd_start
       w: win_adjust_start
       h: win_jump_left
       j: win_jump_down
