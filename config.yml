@@ -1,0 +1,83 @@
+# this file contains the default settings
+# while you can edit this directly if you like, it's recommended that you
+# instead create your own config file under ~/.lens/config.yml
+#
+# the order in which config files are loaded is:
+#   1. ./config.yml
+#   2. ~/.lens/config.yml
+#
+# all settings are loaded from the default, and then anything in
+# ~/.lens/config.yml will override the defaults
+keys:
+  modes:
+    cmd:
+      C: change_to_eol
+      cw: change_word
+      d: delete_current_line
+      e: edit_start
+      h: cursor_left
+      j: cursor_down
+      k: cursor_up
+      l: cursor_right
+      "#": line_numbers
+      P: paste
+      p*: paste_from
+      s: sel_start
+      S: selb_start
+      n: notes_toggle
+      N: note_add
+      m*: mark_start
+      "'*": mark_goto
+      u: undo
+      r: redo
+      v: version_start
+      w: win_start
+      x: exit
+      /: search_start
+      ?: help_start
+    edit:
+      :esc: cmd_start
+    pan: 
+      :esc: cmd_start
+      h: pan_left
+      j: pan_down
+      k: pan_up
+      l: pan_right
+      H: pan_left
+      J: pan_down
+      K: pan_up
+      L: pan_right
+    sel:                  # text selection mode
+      :esc: cmd_start
+      h: sel_more_left
+      j: sel_more_down
+      k: sel_more_up
+      l: sel_more_right
+      H: sel_less_left
+      J: sel_less_down
+      K: sel_less_up
+      L: sel_less_right
+      C: copy
+      c*: copy_to
+      s: snake_case
+      c: camel_case
+      u: upcase
+      d: downcase
+    version: # an interactive mode where you can explore a tree of previous versions
+      p: version_preview
+      j: version_jump_to
+    win:
+      :esc: cmd_start
+      w: win_adjust_start
+      h: win_jump_left
+      j: win_jump_down
+      k: win_jump_up
+      l: win_jump_right
+      v: win_vertical_split
+      h: win_horizontal_split
+    win_adjust:
+      w: win_next_joint
+      h: win_joint_left
+      j: win_joint_down
+      k: win_joint_up
+      l: win_joint_right

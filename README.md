@@ -1,7 +1,7 @@
 a text editor
 
 TODO:
-- everything below (configuratoin) is stored in a .tiny_explorer.config.yml
+- everything below (configuratoin) is stored in a ~/.lens/config.yml
   file. the default configs that ship with the gem should be desgiend to work
   with the tiny_log gem, but there's no reason something this flexible couldn't
   also be used for whatever kind of log file you want
