@@ -1,13 +1,13 @@
-# this file contains the default settings
-# while you can edit this directly if you like, it's recommended that you
-# instead create your own config file under ~/.lens/config.yml
+# this file contains the default settings while you can edit this directly if
+# you like, it's recommended that you instead create your own config file under
+# ~/.lens/config.yml
 #
 # the order in which config files are loaded is:
 #   1. ./config.yml
 #   2. ~/.lens/config.yml
 #
-# all settings are loaded from the default, and then anything in
-# ~/.lens/config.yml will override the defaults
+# any settings are loaded from file #2 above will override what's in the
+# default config file
 keys:
   exit_mode: :esc
   modes:
@@ -46,7 +46,7 @@ keys:
       J: pan_down
       K: pan_up
       L: pan_right
-    sel:                  # text selection mode
+    selection:
       h: sel_more_left
       j: sel_more_down
       k: sel_more_up
@@ -61,10 +61,10 @@ keys:
       c: camel_case
       u: upcase
       d: downcase
-    version: # an interactive mode where you can explore a tree of previous versions
-      p: version_preview
+    history:
+      p: history_preview
       j: version_jump_to
-    win:
+    win_nav:
       w: win_adjust_start
       h: win_jump_left
       j: win_jump_down
@@ -72,7 +72,7 @@ keys:
       l: win_jump_right
       v: win_vertical_split
       h: win_horizontal_split
-    win_adjust:
+    win_adj:
       w: win_next_joint
       h: win_joint_left
       j: win_joint_down
