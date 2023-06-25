@@ -11,6 +11,8 @@ unless ARGV.length == 1 && File.exist?(ARGV.first)
   exit 1
 end
 
+# these requires statements are placed after the USAGE cheack above so that the
+# error situation can be faster than the happy path
 require 'io/console'
 require 'tty-cursor'
 require 'fancy_buff'
@@ -46,7 +48,7 @@ end
 loop do
   print cursor.move_to(0, 0)
   puts fb.win_s
-  print " #{'CMD'.black.on_white} [#{fb.win.map{|i| i + 1}.join(', ')}] v:#{fb.visible_lines}, b:#{fb.blank_lines} -- #{fb.win_s.length}\r"
+  print "#{'CMD'.black.on_white} [#{fb.win.map{|i| i + 1}.join(', ')}] v:#{fb.visible_lines}, b:#{fb.blank_lines} -- #{fb.win_s.length}\e[0K"
 
   c = $stdin.getch
   break if c.ord == CTRL_C
