@@ -1,7 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    fancy_buff (2.1.0)
+    fancy_buff (2.3.0)
+      rouge (~> 4.1)
+    rouge (4.1.2)
     tiny_color (1.2.1)
     tiny_dot (2.0.0)
     tiny_pipe (1.0.1)
@@ -12,6 +14,7 @@ PLATFORMS
 
 DEPENDENCIES
   fancy_buff
+  rouge
   tiny_color
   tiny_dot
   tiny_pipe

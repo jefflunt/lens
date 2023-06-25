@@ -1,6 +1,3 @@
-require 'tty-cursor'
-require 'tiny_color'
-
 CTRL_C = 3
 
 unless ARGV.length == 1 && File.exist?(ARGV.first)
@@ -8,16 +5,23 @@ unless ARGV.length == 1 && File.exist?(ARGV.first)
     ERR: You must specify a filename
 
     Ex:
-      ruby lens.rb <filanem>
+      ruby lens.rb <filename>
   USAGE
 
   exit 1
 end
 
-require 'fancy_buff'
 require 'io/console'
+require 'tty-cursor'
+require 'fancy_buff'
+require 'rouge'
+require 'tiny_color'
 
-fb = FancyBuff.new
+fb = FancyBuff.new(
+  Rouge::Formatters::Terminal256.new,
+  Rouge::Lexers::Ruby.new
+)
+
 IO
   .read(ARGV.shift)
   .lines
