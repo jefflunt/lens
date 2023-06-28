@@ -34,35 +34,42 @@ console = IO.console
 c_rows, c_cols = console.winsize
 c_rows -= 1
 fb.win = [0, 0, c_cols, c_rows]
-cursor = TTY::Cursor
-
-Thread.new do
-  loop do
-    c_rows, c_cols = console.winsize
-    fb.win = [fb.r, fb.c, c_cols, c_rows - 1]
-
-    sleep 0.5
-  end
-end
+caret = TTY::Cursor
 
 loop do
-  print cursor.move_to(0, 0)
+  print caret.hide
+  print caret.move_to(0, 0)
   puts fb.win_s
-  print "#{'CMD'.black.on_white} [#{fb.win.map{|i| i + 1}.join(', ')}] v:#{fb.visible_lines}, b:#{fb.blank_lines} -- #{fb.win_s.length}\e[0K"
+  print "#{'CMD'.black.on_white} [#{fb.win.map{|i| i + 1}.join(', ')}] v:#{fb.visible_lines}, b:#{fb.blank_lines} -- vlines #{fb.win_s.length} -- lw:#{fb.line_no_width} | ^#{fb.caret.map{|n| n + 1 }.join(', ')} | v^[#{fb.visual_caret.map{|n| n + 1 }.join(', ')}]\e[0K"
+
+  # visual caret repositioning
+  print caret.move_to(*fb.visual_caret)
+  print caret.show
 
   c = $stdin.getch
   break if c.ord == CTRL_C
 
   case c.ord
   when 74 # J
-    fb.win_down
+    fb.win_down!
   when 75 # K
-    fb.win_up
+    fb.win_up!
   when 72 # H
-    fb.win_left
+    fb.win_left!
   when 76 # L
-    fb.win_right
+    fb.win_right!
+  when 106 # j
+    fb.caret_down!
+  when 107 # k
+    fb.caret_up!
+  when 104 # h
+    fb.caret_left!
+  when 108 # l
+    fb.caret_right!
   end
+
+  c_rows, c_cols = console.winsize
+  fb.win = [fb.c, fb.r, c_cols, c_rows - 1]
 end
 
 puts 'bye'
