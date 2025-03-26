@@ -22,10 +22,9 @@ class TestFancyBuff < Minitest::Test
     assert_equal :c, @config.cmd('select', nil, 'c')
     assert_equal ['copy_to', 'c'], @config.cmd('select', :c, 'c')
 
-    assert_equal nil, @config.cmd('home', nil, '!')             # cmd not found
-    assert_equal 'xxyyzz', @config.cmd('whatever', nil, 'a')    # subcmd not found
-    assert_equal 'xxyyzz', @config.cmd('whatever', nil, 'a')    # whildcard not found
-    assert_equal 'xxyyzz', @config.cmd('whatever', nil, 'a')    # timeout
+    assert_nil @config.cmd('home', nil, '!')             # cmd not found
+    assert_nil @config.cmd('home', :t, 'x')              # subcmd 'tx' not found
+    assert_nil @config.cmd('home', :x, 'a')              # wildcard 'x' not found
   end
 
   def test_exit_mode_key_found

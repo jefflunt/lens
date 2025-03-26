@@ -21,16 +21,17 @@ class Config
   #     waits for follow-up keystroke to set the name of the mark
   def cmd(mode, subcmd, keystroke)
     if subcmd
-      # handle wildcard
       wildcard = _mode(mode)["#{subcmd}*"]
-      return [wildcard, keystroke] if wildcard                                # wildcard
+      return [wildcard, keystroke] if wildcard                              # wildcard
 
-      _mode(mode)["#{subcmd}#{keystroke}"]                                    # subcmd
+      _mode(mode)["#{subcmd}#{keystroke}"]                                  # subcmd
     else
-      return _mode(mode)[keystroke] if _mode(mode).keys.include?(keystroke)   # direct
+      return nil if _mode(mode).nil?
+      return _mode(mode)[keystroke] if _mode(mode).keys.include?(keystroke) # direct
 
-      subcmds = _mode(mode).keys.select{|k| k.start_with?(subcmd.to_s) }
-      keystroke.to_sym if subcmds.length > 1                                  # subcmd ready
+      subcmds = _mode(mode).keys.select{|k| k.start_with?(keystroke) }    # subcmd ready
+      return keystroke.to_sym if subcmds.length > 1
+      return keystroke.to_sym if subcmds == ["#{keystroke}*"]
     end
   end
 
