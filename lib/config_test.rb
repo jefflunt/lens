@@ -1,9 +1,10 @@
 require 'minitest/autorun'
+require 'yaml'
 require_relative './config'
 
 class TestFancyBuff < Minitest::Test
   def setup
-    @config = Config.parse(IO.read('config.yml'))
+    @config = Config.new(YAML.load(IO.read('config.yml')))
   end
 
   def test_mode_cmds

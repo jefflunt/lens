@@ -18,6 +18,10 @@ require 'tty-cursor'
 require 'fancy_buff'
 require 'rouge'
 require 'tiny_color'
+require 'yaml'
+require_relative './lib/config'
+
+config = Config.new(YAML.load(IO.read('config.yml')))
 
 fb = FancyBuff.new(
   Rouge::Formatters::Terminal256.new,
@@ -35,38 +39,31 @@ c_rows, c_cols = console.winsize
 c_rows -= 1
 fb.win = [0, 0, c_cols, c_rows]
 caret = TTY::Cursor
+mode = 'home'
+cmd = nil
 
 loop do
   print caret.hide
   print caret.move_to(0, 0)
   puts fb.win_s
-  print "#{'CMD'.black.on_white} [#{fb.win.map{|i| i + 1}.join(', ')}] v:#{fb.visible_lines}, b:#{fb.blank_lines} -- vlines #{fb.win_s.length} -- lw:#{fb.line_no_width} | ^#{fb.caret.map{|n| n + 1 }.join(', ')} | v^[#{fb.visual_caret.map{|n| n + 1 }.join(', ')}]\e[0K"
+  print "#{(mode.upcase + " #{cmd}").ljust(16).black.on_white} [#{fb.win.map{|i| i + 1}.join(', ')}] v:#{fb.visible_lines}, b:#{fb.blank_lines} -- vlines #{fb.win_s.length} -- lw:#{fb.line_no_width} | ^#{fb.caret.map{|n| n + 1 }.join(', ')} | v^[#{fb.visual_caret.map{|n| n + 1 }.join(', ')}]\e[0K"
 
   # visual caret repositioning
   print caret.move_to(*fb.visual_caret)
   print caret.show
 
   c = $stdin.getch
-  break if c.ord == CTRL_C
+  cmd = config.cmd(mode, nil, c)
 
-  case c.ord
-  when 74 # J
-    fb.win_down!
-  when 75 # K
-    fb.win_up!
-  when 72 # H
-    fb.win_left!
-  when 76 # L
-    fb.win_right!
-  when 106 # j
-    fb.caret_down!
-  when 107 # k
-    fb.caret_up!
-  when 104 # h
-    fb.caret_left!
-  when 108 # l
-    fb.caret_right!
+  case cmd
+  when Symbol
+    cmd = config.cmd(mode, cmd, $stdin.getch)
+  when nil
+    print "\a"
   end
+
+  break if cmd == 'exit'
+  # handle cmd
 
   c_rows, c_cols = console.winsize
   fb.win = [fb.c, fb.r, c_cols, c_rows - 1]

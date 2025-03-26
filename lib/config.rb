@@ -1,12 +1,6 @@
-require 'yaml'
-
 ##
 # this class reads the config.yml file (passed in as string), and generates the lens config
 class Config
-  def self.parse(config_str)
-    Config.new(YAML.load(config_str))
-  end
-
   # config: a Hash containing a config, e.g. parsed from the ./config.yml file
   def initialize(config)
     @config = config
