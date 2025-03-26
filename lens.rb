@@ -19,6 +19,7 @@ require 'fancy_buff'
 require 'rouge'
 require 'tiny_color'
 require 'yaml'
+require_relative './cmds'
 require_relative './lib/config'
 
 config = Config.new(YAML.load(IO.read('config.yml')))
@@ -51,9 +52,10 @@ loop do
   puts fb.win_s
   print "#{(mode.upcase + " #{cmd_char&.ord} #{cmd_str}").ljust(16).black.on_white} [#{fb.win.map{|i| i + 1}.join(', ')}] v:#{fb.visible_lines}, b:#{fb.blank_lines} -- vlines #{fb.win_s.length} -- lw:#{fb.line_no_width} | ^#{fb.caret.map{|n| n + 1 }.join(', ')} | v^[#{fb.visual_caret.map{|n| n + 1 }.join(', ')}]\e[0K"
 
-  cmd = nil
-  cmd_char = nil
-  cmd_str = cmd.to_s
+
+  cmd_char = nil            # cmd_char is the literal character read back from the keyboard
+  cmd = nil                 # this is the command to execute, or subcommand to ready
+  cmd_str = cmd.to_s        # this is the command to execute
 
   # visual caret repositioning
   print caret.move_to(*fb.visual_caret)
@@ -63,8 +65,11 @@ loop do
   cmd_char = $stdin.getch
   cmd = config.cmd(mode, nil, cmd_char)
 
+  # handle special cmds: escape and exit
   break if cmd == 'exit'
+  ((mode = DEFAULT_MODE) && next) if cmd_char&.ord == 27  # esc key
 
+  # handle all other commands
   case cmd
   when Symbol     # ready subcmd
     cmd = config.cmd(mode, cmd, $stdin.getch)
@@ -75,6 +80,8 @@ loop do
     when 'buff'
       if fb.respond_to?(cmd)
         fb.send(cmd)
+      elsif Cmds.respond_to?(cmd)
+        Cmds.send(cmd)
       elsif cmd.start_with?('ms_')
         mode = cmd.sub('ms_', '')
       else
@@ -82,11 +89,6 @@ loop do
       end
     end
   when nil        # cmd not found
-    if cmd&.ord == 27  # esc key
-      mode = DEFAULT_MODE
-      next
-    end
-
     print "\a"
   end
 

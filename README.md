@@ -1,5 +1,17 @@
 a text editor
 
+run editor:
+
+```
+./lens
+```
+
+run tests:
+
+```
+./lens_tests
+```
+
 TODO:
 - `fancy_buff` enhancements
   - load a buffer in another process and make it available via TCP

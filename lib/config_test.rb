@@ -10,8 +10,8 @@ class TestConfig < Minitest::Test
   def test_mode_cmds
     # direct, subcmd, and wildcards from 'buff' mode
     assert_equal 'autosave_enable', @config.cmd('buff', nil, 'a')
-    assert_equal :b, @config.cmd('buff', nil, 'b')
-    assert_equal 'ms_buff_adj', @config.cmd('buff', :b, 'a')
+    assert_equal :c, @config.cmd('buff', nil, 'c')
+    assert_equal 'clipboard_open', @config.cmd('buff', :c, 'o')
     assert_equal :m, @config.cmd('buff', nil, 'm')
     assert_equal ['paste_from', 'a'], @config.cmd('buff', :p, 'a')
     assert_equal ['paste_from', 'b'], @config.cmd('buff', :p, 'b')

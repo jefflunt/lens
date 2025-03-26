@@ -11,15 +11,21 @@
 subcmd_timeout: 1             # how long between when a subcommand is triggered and when it times out if a follow up keystroke isn't pressed
 modes:                        # the list of modes
   buff:                         # home mode - all the commands available to you in the starting mode
+    "1": ms_edit
+    "2": ms_select
+    "3": ms_pan
+    "9": ms_buff_adj               # mode switch to buffer adjustment
+    "0": ms_buff_nav               # move switch to buffer navigation
+
+    "/": ms_search                  # mode switch to search
+    "?": help                       # open help
+
     a: autosave_enable            # enable auto-save (this is on by default)
     A: autosave_disable           # disable auto-save
-    ba: ms_buff_adj               # mode switch to buffer adjustment
-    bn: ms_buff_nav               # move switch to buffer navigation
     C: clear_to_eol               # clear from the cursor to the end of the line
     co: clipboard_open            # show the clipboard preview window for the current buffer
     cw: change_word               # clear from the cursor to the end of the word
     d: delete_current_line        # delete the entire current line, and move everything else up
-    e: ms_edit                    # mode switch to edit mode
     F: file_system                # open a buffer with a file system navigator
     h: caret_left!                # move the cursor to the left
     j: caret_down!                # move the cursor down
@@ -28,9 +34,7 @@ modes:                        # the list of modes
     "#": line_numbers             # toggle line numbers
     n: notes_toggle               # toggle the display of notes for the current file; notes are like comments, but they're stored alongside the file, and not in it
     N: note_add                   # add a new note to the current file
-    # m*: mark_set                  # set the mark by letter
-    mp: ms_pan                    # switch to pan mode
-    ms: ms_select                 # switch to select mode
+    m*: mark_set                  # set the mark by letter
     "' ": mark_toggle             # toggle to the most recently selected mark
     "'*": mark_goto               # goto the lettered mark
     P: paste                      # paste whatever is in the most recent clipboard
@@ -39,14 +43,10 @@ modes:                        # the list of modes
     RC: reload_config             # reload and re-parse the config file
     u: undo                       # undo the last edit action
     .: again                      # do the last edit action again
-    s: ms_select                  # mode switch to selection model
-    S: ms_select_b                # mode switch to selection b? (not sure what this is)
     t: open_transform_editor      # open the transform editor (the data pipelines that get applied to visible lines)
     T: tail_file                  # scroll to the bottom of the file and stream its output into the buffer
     v: version_start              # undo/redo version tree? not sure what this is
     x: exit                       # exit/quit lens
-    /: ms_search                  # mode switch to search
-    ?: ms_help                    # mode switch to help interface
   pan:                          # buffer panning mode
     h: pan_left                   # pan left
     j: pan_down                   # pan down
