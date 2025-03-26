@@ -8,7 +8,6 @@
 #
 # any settings are loaded from file #2 above will override what's in the
 # default config file
-exit_mode_key: :esc           # the key you press to exit a mode
 subcmd_timeout: 1             # how long between when a subcommand is triggered and when it times out if a follow up keystroke isn't pressed
 modes:                        # the list of modes
   buff:                         # home mode - all the commands available to you in the starting mode
@@ -22,14 +21,16 @@ modes:                        # the list of modes
     d: delete_current_line        # delete the entire current line, and move everything else up
     e: ms_edit                    # mode switch to edit mode
     F: file_system                # open a buffer with a file system navigator
-    h: cursor_left                # move the cursor to the left
-    j: cursor_down                # move the cursor down
-    k: cursor_up                  # move the cursor up
-    l: cursor_right               # move the cursor right
+    h: caret_left!                # move the cursor to the left
+    j: caret_down!                # move the cursor down
+    k: caret_up!                  # move the cursor up
+    l: caret_right!               # move the cursor right
     "#": line_numbers             # toggle line numbers
     n: notes_toggle               # toggle the display of notes for the current file; notes are like comments, but they're stored alongside the file, and not in it
     N: note_add                   # add a new note to the current file
-    m*: mark_set                  # set the mark by letter
+    # m*: mark_set                  # set the mark by letter
+    mp: ms_pan                    # switch to pan mode
+    ms: ms_select                 # switch to select mode
     "' ": mark_toggle             # toggle to the most recently selected mark
     "'*": mark_goto               # goto the lettered mark
     P: paste                      # paste whatever is in the most recent clipboard
@@ -40,8 +41,8 @@ modes:                        # the list of modes
     .: again                      # do the last edit action again
     s: ms_select                  # mode switch to selection model
     S: ms_select_b                # mode switch to selection b? (not sure what this is)
-    te: open_transform_editor     # open the transform editor (the data pipelines that get applied to visible lines)
-    tf: tail_file                 # scroll to the bottom of the file and stream its output into the buffer
+    t: open_transform_editor      # open the transform editor (the data pipelines that get applied to visible lines)
+    T: tail_file                  # scroll to the bottom of the file and stream its output into the buffer
     v: version_start              # undo/redo version tree? not sure what this is
     x: exit                       # exit/quit lens
     /: ms_search                  # mode switch to search

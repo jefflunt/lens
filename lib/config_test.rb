@@ -2,7 +2,7 @@ require 'minitest/autorun'
 require 'yaml'
 require_relative './config'
 
-class TestFancyBuff < Minitest::Test
+class TestConfig < Minitest::Test
   def setup
     @config = Config.new(YAML.load(IO.read('config.yml')))
   end
@@ -12,10 +12,10 @@ class TestFancyBuff < Minitest::Test
     assert_equal 'autosave_enable', @config.cmd('buff', nil, 'a')
     assert_equal :b, @config.cmd('buff', nil, 'b')
     assert_equal 'ms_buff_adj', @config.cmd('buff', :b, 'a')
-    assert_equal :t, @config.cmd('buff', nil, 't')
-    assert_equal ['mark_set', 'a'], @config.cmd('buff', :m, 'a')
-    assert_equal ['mark_set', 'b'], @config.cmd('buff', :m, 'b')
-    assert_equal ['mark_set', 'c'], @config.cmd('buff', :m, 'c')
+    assert_equal :m, @config.cmd('buff', nil, 'm')
+    assert_equal ['paste_from', 'a'], @config.cmd('buff', :p, 'a')
+    assert_equal ['paste_from', 'b'], @config.cmd('buff', :p, 'b')
+    assert_equal ['paste_from', 'c'], @config.cmd('buff', :p, 'c')
 
     # confirming works in other modes as well
     assert_equal 'pan_left', @config.cmd('pan', nil, 'h')
@@ -25,10 +25,6 @@ class TestFancyBuff < Minitest::Test
     assert_nil @config.cmd('buff', nil, '!')             # cmd not found
     assert_nil @config.cmd('buff', :t, 'x')              # subcmd 'tx' not found
     assert_nil @config.cmd('buff', :x, 'a')              # wildcard 'x' not found
-  end
-
-  def test_exit_mode_key_found
-    assert_equal :esc, @config.exit_mode_key
   end
 
   def test_subcmd_timeout
