@@ -13,14 +13,19 @@ class TestFancyBuff < Minitest::Test
     assert_equal :b, @config.cmd('home', nil, 'b')
     assert_equal 'ms_buff_adj', @config.cmd('home', :b, 'a')
     assert_equal :t, @config.cmd('home', nil, 't')
-    assert_equal 'mark_set a', @config.cmd('home', :m, 'a')
-    assert_equal 'mark_set b', @config.cmd('home', :m, 'b')
-    assert_equal 'mark_set c', @config.cmd('home', :m, 'c')
+    assert_equal ['mark_set', 'a'], @config.cmd('home', :m, 'a')
+    assert_equal ['mark_set', 'b'], @config.cmd('home', :m, 'b')
+    assert_equal ['mark_set', 'c'], @config.cmd('home', :m, 'c')
 
     # confirming works in other modes as well
     assert_equal 'pan_left', @config.cmd('pan', nil, 'h')
     assert_equal :c, @config.cmd('select', nil, 'c')
-    assert_equal 'copy_to c', @config.cmd('select', :c, 'c')
+    assert_equal ['copy_to', 'c'], @config.cmd('select', :c, 'c')
+
+    assert_equal nil, @config.cmd('home', nil, '!')             # cmd not found
+    assert_equal 'xxyyzz', @config.cmd('whatever', nil, 'a')    # subcmd not found
+    assert_equal 'xxyyzz', @config.cmd('whatever', nil, 'a')    # whildcard not found
+    assert_equal 'xxyyzz', @config.cmd('whatever', nil, 'a')    # timeout
   end
 
   def test_exit_mode_key_found

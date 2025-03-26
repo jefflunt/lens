@@ -23,7 +23,7 @@ class Config
     if subcmd
       # handle wildcard
       wildcard = _mode(mode)["#{subcmd}*"]
-      return "#{wildcard} #{keystroke}" if wildcard                           # wildcard
+      return [wildcard, keystroke] if wildcard                                # wildcard
 
       _mode(mode)["#{subcmd}#{keystroke}"]                                    # subcmd
     else

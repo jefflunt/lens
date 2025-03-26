@@ -41,12 +41,13 @@ fb.win = [0, 0, c_cols, c_rows]
 caret = TTY::Cursor
 mode = 'home'
 cmd = nil
+cmd_str = cmd.to_s
 
 loop do
   print caret.hide
   print caret.move_to(0, 0)
   puts fb.win_s
-  print "#{(mode.upcase + " #{cmd}").ljust(16).black.on_white} [#{fb.win.map{|i| i + 1}.join(', ')}] v:#{fb.visible_lines}, b:#{fb.blank_lines} -- vlines #{fb.win_s.length} -- lw:#{fb.line_no_width} | ^#{fb.caret.map{|n| n + 1 }.join(', ')} | v^[#{fb.visual_caret.map{|n| n + 1 }.join(', ')}]\e[0K"
+  print "#{(mode.upcase + " #{cmd_str}").ljust(16).black.on_white} [#{fb.win.map{|i| i + 1}.join(', ')}] v:#{fb.visible_lines}, b:#{fb.blank_lines} -- vlines #{fb.win_s.length} -- lw:#{fb.line_no_width} | ^#{fb.caret.map{|n| n + 1 }.join(', ')} | v^[#{fb.visual_caret.map{|n| n + 1 }.join(', ')}]\e[0K"
 
   # visual caret repositioning
   print caret.move_to(*fb.visual_caret)
@@ -58,6 +59,9 @@ loop do
   case cmd
   when Symbol
     cmd = config.cmd(mode, cmd, $stdin.getch)
+    cmd_str = cmd
+  when Array
+  when String
   when nil
     print "\a"
   end
