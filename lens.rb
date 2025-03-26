@@ -39,7 +39,7 @@ c_rows, c_cols = console.winsize
 c_rows -= 1
 fb.win = [0, 0, c_cols, c_rows]
 caret = TTY::Cursor
-mode = 'home'
+mode = 'buff'
 cmd = nil
 cmd_str = cmd.to_s
 
@@ -53,8 +53,9 @@ loop do
   print caret.move_to(*fb.visual_caret)
   print caret.show
 
-  c = $stdin.getch
-  cmd = config.cmd(mode, nil, c)
+  # cmd input handling and dispatch via the Config instance
+  cmd_char = $stdin.getch
+  cmd = config.cmd(mode, nil, cmd_char)
 
   case cmd
   when Symbol
