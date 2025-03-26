@@ -12,10 +12,19 @@ class TestConfig < Minitest::Test
     assert_equal 'autosave_enable', @config.cmd('buff', nil, 'a')
     assert_equal :c, @config.cmd('buff', nil, 'c')
     assert_equal 'clipboard_open', @config.cmd('buff', :c, 'o')
+
     assert_equal :m, @config.cmd('buff', nil, 'm')
+    assert_equal ['mark_set', 'x'], @config.cmd('buff', :m, 'x')
+
+    assert_equal :"'", @config.cmd('buff', nil, "'")
+    assert_equal ['mark_goto', 'x'], @config.cmd('buff', :"'", 'x')
+
     assert_equal ['paste_from', 'a'], @config.cmd('buff', :p, 'a')
     assert_equal ['paste_from', 'b'], @config.cmd('buff', :p, 'b')
     assert_equal ['paste_from', 'c'], @config.cmd('buff', :p, 'c')
+
+    assert_equal :R, @config.cmd('buff', nil, 'R')
+    assert_equal 'reload_config', @config.cmd('buff', :R, 'C')
 
     # confirming works in other modes as well
     assert_equal 'pan_left', @config.cmd('pan', nil, 'h')

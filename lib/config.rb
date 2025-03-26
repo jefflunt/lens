@@ -29,8 +29,8 @@ class Config
       return nil if _mode(mode).nil?
       return _mode(mode)[keystroke] if _mode(mode).keys.include?(keystroke) # direct
 
-      subcmds = _mode(mode).keys.select{|k| k.start_with?(keystroke) }    # subcmd ready
-      return keystroke.to_sym if subcmds.length > 1
+      subcmds = _mode(mode).keys.select{|k| k.start_with?(keystroke) }      # subcmd ready
+      return keystroke.to_sym if subcmds.length >= 1
       return keystroke.to_sym if subcmds == ["#{keystroke}*"]
     end
   end

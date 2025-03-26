@@ -14,11 +14,12 @@ modes:                        # the list of modes
     "1": ms_edit
     "2": ms_select
     "3": ms_pan
-    "9": ms_buff_adj               # mode switch to buffer adjustment
-    "0": ms_buff_nav               # move switch to buffer navigation
+    "9": ms_buff_adj              # mode switch to buffer adjustment
+    "0": ms_buff_nav              # move switch to buffer navigation
 
-    "/": ms_search                  # mode switch to search
-    "?": help                       # open help
+    "#": toggle_line_numbers      # toggle line numbers
+    "/": ms_search                # mode switch to search
+    "?": help                     # open help
 
     a: autosave_enable            # enable auto-save (this is on by default)
     A: autosave_disable           # disable auto-save
@@ -31,7 +32,6 @@ modes:                        # the list of modes
     j: caret_down!                # move the cursor down
     k: caret_up!                  # move the cursor up
     l: caret_right!               # move the cursor right
-    "#": line_numbers             # toggle line numbers
     n: notes_toggle               # toggle the display of notes for the current file; notes are like comments, but they're stored alongside the file, and not in it
     N: note_add                   # add a new note to the current file
     m*: mark_set                  # set the mark by letter
