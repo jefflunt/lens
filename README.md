@@ -1,18 +1,12 @@
 a text editor
 
 TODO:
+- `fancy_buff` enhancements
+  - load a buffer in another process and make it available via TCP
 - everything below (configuratoin) is stored in a ~/.lens/config.yml
   file. the default configs that ship with the gem should be desgiend to work
   with the tiny_log gem, but there's no reason something this flexible couldn't
   also be used for whatever kind of log file you want
-- display the log on screen, order chronologically
-  - color-code the basic fields: timestamp, PID, logger level, and log line
-- vim-ish control keys
-  - search / filter via the `/` key
-  - hjkl navigation
-  - Ctrl-f / Ctrl-b : pagedown / pageup
-  - Ctrl-e / Ctrl-y : linedown / lineup
-  - gg / Shift+g    : top of window / bottom of window (respecting tailing)
 - parsers
   - txt
   - JSON
