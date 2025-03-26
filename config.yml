@@ -8,84 +8,80 @@
 #
 # any settings are loaded from file #2 above will override what's in the
 # default config file
-keys:                         # key mapping configuration
-  exit_mode: :esc               # the key you press to exit a mode
-  subcmd_timeout: 1             # how long between when a subcommand is triggered and when it times out if a follow up keystroke isn't pressed
-  modes:                        # the list of modes
-    home:                         # home mode - all the commands available to you in the starting mode
-      a: autosave_enable            # enable auto-save (this is on by default)
-      A: autosave_disable           # disable auto-save
-      ba: ms_buff_adj               # mode switch to buffer adjustment
-      bn: ms_buff_nav               # move switch to buffer navigation
-      C: clear_to_eol               # clear from the cursor to the end of the line
-      co: clipboard_open            # show the clipboard preview window for the current buffer
-      cw: change_word               # clear from the cursor to the end of the word
-      d: delete_current_line        # delete the entire current line, and move everything else up
-      e: ms_edit                    # mode switch to edit mode
-      F: file_system                # open a buffer with a file system navigator
-      h: cursor_left                # move the cursor to the left
-      j: cursor_down                # move the cursor down
-      k: cursor_up                  # move the cursor up
-      l: cursor_right               # move the cursor right
-      "#": line_numbers             # toggle line numbers
-      n: notes_toggle               # toggle the display of notes for the current file; notes are like comments, but they're stored alongside the file, and not in it
-      N: note_add                   # add a new note to the current file
-      m*: mark_set                  # set the mark by letter
-      "m ": mark_toggle               # toggle to the most recently selected mark
-      "'*": mark_goto               # goto the lettered mark
-      P: paste                      # paste whatever is in the most recent clipboard
-      p*: paste_from                # paste from a particular clipboard
-      r: redo                       # redo the last edit action
-      RC: reload_config             # reload and re-parse the config file
-      u: undo                       # undo the last edit action
-      .: again                      # do the last edit action again
-      s: ms_select                  # mode switch to selection model
-      S: ms_select_b                # mode switch to selection b? (not sure what this is)
-      te: open_transform_editor     # open the transform editor (the data pipelines that get applied to visible lines)
-      t: tail_file                  # scroll to the bottom of the file and stream its output into the buffer
-      v: version_start              # undo/redo version tree? not sure what this is
-      x: exit                       # exit/quit lens
-      /: ms_search                  # mode switch to search
-      ?: ms_help                    # mode switch to help interface
-    pan:                          # buffer panning mode
-      h: pan_left                   # pan left
-      j: pan_down                   # pan down
-      k: pan_up                     # pan up
-      l: pan_right                  # pan right
-      H: pan_left_fast              # pan left faster
-      J: pan_down_fast              # pan down faster
-      K: pan_up_fast                # pan up faster
-      L: pan_right_fast             # pan right faster
-    select:                       # text selection mode
-      h: sel_more_left              # select more to the left
-      j: sel_more_down              # select more one line down
-      k: sel_more_up                # select more one line up
-      l: sel_more_right             # select more to the right
-      H: sel_less_left              # select less from the right edge moving left
-      J: sel_less_down              # select less from the top edge moving down
-      K: sel_less_up                # select less from the bottom edge, moving up
-      L: sel_less_right             # select less from the left edge, moving right
-      C: copy                       # copy the selected text
-      c*: copy_to                   # copy the selected text to the lettered clipboard
-      s: snake_case                 # convert selected text to snake_case
-      c: camel_case                 # convert selected text to camelCase
-      p: pascal_case                # convert the selected text to PascalCase
-      u: upcase                     # convert the selected text to all upper case
-      d: downcase                   # convert the selected text to all lower case
-    history:                      # history mode - history of what, exactly, I'm not sure
-      p: history_preview            # show histories
-      j: version_jump_to            # jump to a specific history
-    buff_adj:                     # buffer size adjustment mode - buffers have joints between them where they meet, and the joints are ordered.
-      n: buff_next_joint            # go to the next buffer joint
-      p: buff_prev_joint            # go to the previous buffer joint
-      h: buff_joint_left            # go to the closest buffer joint to the left
-      j: buff_joint_down            # go to the closest buffer joint downwards
-      k: buff_joint_up              # go to the closest buffer upwards
-      l: buff_joint_right           # go to the closest buffer joint to the right
-      v: buff_make_vert_split       # create a vertical_split
-      h: buff_make_hori_split       # create a horizontal split
-    buff_nav:                     # buffer navigation mode
-      h: buff_jump_left             # move to the buffer to the left
-      j: buff_jump_down             # move to the buffer that's downwards
-      k: buff_jump_up               # move to the buffer that's upwards
-      l: buff_jump_right            # move to the buffer to the right
+exit_mode_key: :esc           # the key you press to exit a mode
+subcmd_timeout: 1             # how long between when a subcommand is triggered and when it times out if a follow up keystroke isn't pressed
+modes:                        # the list of modes
+  home:                         # home mode - all the commands available to you in the starting mode
+    a: autosave_enable            # enable auto-save (this is on by default)
+    A: autosave_disable           # disable auto-save
+    ba: ms_buff_adj               # mode switch to buffer adjustment
+    bn: ms_buff_nav               # move switch to buffer navigation
+    C: clear_to_eol               # clear from the cursor to the end of the line
+    co: clipboard_open            # show the clipboard preview window for the current buffer
+    cw: change_word               # clear from the cursor to the end of the word
+    d: delete_current_line        # delete the entire current line, and move everything else up
+    e: ms_edit                    # mode switch to edit mode
+    F: file_system                # open a buffer with a file system navigator
+    h: cursor_left                # move the cursor to the left
+    j: cursor_down                # move the cursor down
+    k: cursor_up                  # move the cursor up
+    l: cursor_right               # move the cursor right
+    "#": line_numbers             # toggle line numbers
+    n: notes_toggle               # toggle the display of notes for the current file; notes are like comments, but they're stored alongside the file, and not in it
+    N: note_add                   # add a new note to the current file
+    m*: mark_set                  # set the mark by letter
+    "' ": mark_toggle             # toggle to the most recently selected mark
+    "'*": mark_goto               # goto the lettered mark
+    P: paste                      # paste whatever is in the most recent clipboard
+    p*: paste_from                # paste from a particular clipboard
+    r: redo                       # redo the last edit action
+    RC: reload_config             # reload and re-parse the config file
+    u: undo                       # undo the last edit action
+    .: again                      # do the last edit action again
+    s: ms_select                  # mode switch to selection model
+    S: ms_select_b                # mode switch to selection b? (not sure what this is)
+    te: open_transform_editor     # open the transform editor (the data pipelines that get applied to visible lines)
+    tf: tail_file                 # scroll to the bottom of the file and stream its output into the buffer
+    v: version_start              # undo/redo version tree? not sure what this is
+    x: exit                       # exit/quit lens
+    /: ms_search                  # mode switch to search
+    ?: ms_help                    # mode switch to help interface
+  pan:                          # buffer panning mode
+    h: pan_left                   # pan left
+    j: pan_down                   # pan down
+    k: pan_up                     # pan up
+    l: pan_right                  # pan right
+    H: pan_left_fast              # pan left faster
+    J: pan_down_fast              # pan down faster
+    K: pan_up_fast                # pan up faster
+    L: pan_right_fast             # pan right faster
+  select:                       # text selection mode
+    h: sel_more_left              # select more to the left
+    j: sel_more_down              # select more one line down
+    k: sel_more_up                # select more one line up
+    l: sel_more_right             # select more to the right
+    H: sel_less_left              # select less from the right edge moving left
+    J: sel_less_down              # select less from the top edge moving down
+    K: sel_less_up                # select less from the bottom edge, moving up
+    L: sel_less_right             # select less from the left edge, moving right
+    C: copy                       # copy the selected text
+    c*: copy_to                   # copy the selected text to the lettered clipboard
+    u: upcase                     # convert the selected text to all upper case
+    d: downcase                   # convert the selected text to all lower case
+  history:                      # history mode - history of what, exactly, I'm not sure
+    p: history_preview            # show histories
+    j: version_jump_to            # jump to a specific history
+  buff_adj:                     # buffer size adjustment mode - buffers have joints between them where they meet, and the joints are ordered.
+    n: buff_next_joint            # go to the next buffer joint
+    p: buff_prev_joint            # go to the previous buffer joint
+    h: buff_joint_left            # go to the closest buffer joint to the left
+    j: buff_joint_down            # go to the closest buffer joint downwards
+    k: buff_joint_up              # go to the closest buffer upwards
+    l: buff_joint_right           # go to the closest buffer joint to the right
+    v: buff_make_vert_split       # create a vertical_split
+    h: buff_make_hori_split       # create a horizontal split
+  buff_nav:                     # buffer navigation mode
+    h: buff_jump_left             # move to the buffer to the left
+    j: buff_jump_down             # move to the buffer that's downwards
+    k: buff_jump_up               # move to the buffer that's upwards
+    l: buff_jump_right            # move to the buffer to the right

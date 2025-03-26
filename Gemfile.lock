@@ -3,6 +3,7 @@ GEM
   specs:
     fancy_buff (3.1.0)
       rouge (~> 4.1)
+    minitest (5.25.5)
     rouge (4.1.2)
     tiny_color (1.2.1)
     tiny_dot (2.0.0)
@@ -11,9 +12,11 @@ GEM
 
 PLATFORMS
   x86_64-darwin-21
+  x86_64-darwin-24
 
 DEPENDENCIES
   fancy_buff
+  minitest
   rouge
   tiny_color
   tiny_dot
