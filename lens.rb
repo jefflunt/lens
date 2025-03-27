@@ -42,9 +42,9 @@ buff.win = [0, 0, c_cols, c_rows]
 caret = TTY::Cursor
 default_mode = config.default_mode
 mode = default_mode
-cmd_char = nil
-cmd = nil
-cmd_str = cmd.to_s
+cmd_char = nil        # cmd_char is the literal character read back from the keyboard
+cmd = nil             # this is the command to execute, or subcommand to ready
+cmd_str = cmd.to_s    # this is the command to execute
 
 loop do
   print caret.hide
@@ -52,10 +52,9 @@ loop do
   puts buff.win_s
   print "#{(mode.upcase + " #{cmd_char&.ord} #{cmd_str}").ljust(16).black.on_white} [#{buff.win.map{|i| i + 1}.join(', ')}] v:#{buff.visible_lines}, b:#{buff.blank_lines} -- vlines #{buff.win_s.length} -- lw:#{buff.line_no_width} | ^#{buff.caret.map{|n| n + 1 }.join(', ')} | v^[#{buff.visual_caret.map{|n| n + 1 }.join(', ')}]\e[0K"
 
-
-  cmd_char = nil            # cmd_char is the literal character read back from the keyboard
-  cmd = nil                 # this is the command to execute, or subcommand to ready
-  cmd_str = cmd.to_s        # this is the command to execute
+  cmd_char = nil
+  cmd = nil
+  cmd_str = cmd.to_s
 
   # visual caret repositioning
   print caret.move_to(*buff.visual_caret)
