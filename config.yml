@@ -12,12 +12,12 @@ subcmd_timeout: 1             # how long between when a subcommand is triggered 
 default_mode: buffer
 modes:                        # the list of modes
   buffer:                       # home mode - all the commands available to you in the starting mode
-    "1": ms_buffer
-    "2": ms_edit
-    "3": ms_select
-    "4": ms_pan
-    "9": ms_buff_adj              # mode switch to buffer adjustment
-    "0": ms_buff_nav              # move switch to buffer navigation
+    "1": ms_buffer                # mode switch to buffer
+    "2": ms_edit                  # mode switch to editing
+    "3": ms_select                # mode switch text selection
+    "4": ms_pan                   # mode switch to panning
+    "9": ms_buffer_adj            # mode switch to buffer adjustment
+    "0": ms_buffer_nav            # mode switch to buffer navigation
 
     "#": toggle_line_numbers      # toggle line numbers
     "/": ms_search                # mode switch to search
@@ -74,17 +74,17 @@ modes:                        # the list of modes
   history:                      # history mode - history of what, exactly, I'm not sure
     p: history_preview            # show histories
     j: version_jump_to            # jump to a specific history
-  buff_adj:                     # buffer size adjustment mode - buffers have joints between them where they meet, and the joints are ordered.
-    n: buff_next_joint            # go to the next buffer joint
-    p: buff_prev_joint            # go to the previous buffer joint
-    h: buff_joint_left            # go to the closest buffer joint to the left
-    j: buff_joint_down            # go to the closest buffer joint downwards
-    k: buff_joint_up              # go to the closest buffer upwards
-    l: buff_joint_right           # go to the closest buffer joint to the right
-    v: buff_make_vert_split       # create a vertical_split
-    h: buff_make_hori_split       # create a horizontal split
-  buff_nav:                     # buffer navigation mode
-    h: buff_jump_left             # move to the buffer to the left
-    j: buff_jump_down             # move to the buffer that's downwards
-    k: buff_jump_up               # move to the buffer that's upwards
-    l: buff_jump_right            # move to the buffer to the right
+  buffer_adj:                     # buffer size adjustment mode - buffers have joints between them where they meet, and the joints are ordered.
+    n: adj_next_joint             # go to the next buffer joint
+    p: adj_prev_joint             # go to the previous buffer joint
+    h: adj_joint_left             # go to the closest buffer joint to the left
+    j: adj_joint_down             # go to the closest buffer joint downwards
+    k: adj_joint_up               # go to the closest buffer upwards
+    l: adj_joint_right            # go to the closest buffer joint to the right
+    v: adj_make_vert_split        # create a vertical_split
+    h: adj_make_hori_split        # create a horizontal split
+  buffer_nav:                   # buffer navigation mode
+    h: nav_jump_left              # move to the buffer to the left
+    j: nav_jump_down              # move to the buffer that's downwards
+    k: nav_jump_up                # move to the buffer that's upwards
+    l: nav_jump_right             # move to the buffer to the right
