@@ -1,6 +1,6 @@
 require 'minitest/autorun'
 require 'rouge'
-require_relative './fancy_buff'
+require_relative './buffer'
 
 class TestFancyBuff < Minitest::Test
   def setup

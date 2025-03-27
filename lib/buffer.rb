@@ -1,5 +1,5 @@
 # a text buffer with marks, selections, and rudimentary editing
-class FancyBuff
+class Buffer
   attr_reader :chars,
               :bytes,
               :lines,
