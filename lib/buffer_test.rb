@@ -2,12 +2,12 @@ require 'minitest/autorun'
 require 'rouge'
 require_relative './buffer'
 
-class TestFancyBuff < Minitest::Test
+class TestBuffer < Minitest::Test
   def setup
     @content = "line 1\nline 2\nline 3"
     @formatter = Rouge::Formatters::Terminal256.new
     @lexer = Rouge::Lexers::Ruby.new
-    @buff = FancyBuff.new(@formatter, @lexer)
+    @buff = Buffer.new(@formatter, @lexer)
     @content.lines.each{|l| @buff << l }
     @buff.win = [0, 0, 4, 2]
   end
