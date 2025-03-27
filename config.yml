@@ -9,11 +9,13 @@
 # any settings are loaded from file #2 above will override what's in the
 # default config file
 subcmd_timeout: 1             # how long between when a subcommand is triggered and when it times out if a follow up keystroke isn't pressed
+default_mode: buffer
 modes:                        # the list of modes
-  buff:                         # home mode - all the commands available to you in the starting mode
-    "1": ms_edit
-    "2": ms_select
-    "3": ms_pan
+  buffer:                       # home mode - all the commands available to you in the starting mode
+    "1": ms_buffer
+    "2": ms_edit
+    "3": ms_select
+    "4": ms_pan
     "9": ms_buff_adj              # mode switch to buffer adjustment
     "0": ms_buff_nav              # move switch to buffer navigation
 

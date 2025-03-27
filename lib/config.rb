@@ -35,6 +35,10 @@ class Config
     end
   end
 
+  def default_mode
+    @config['default_mode']
+  end
+
   def exit_mode_key
     @config['exit_mode_key']
   end

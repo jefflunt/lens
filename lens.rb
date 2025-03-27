@@ -40,8 +40,8 @@ c_rows, c_cols = console.winsize
 c_rows -= 1
 fb.win = [0, 0, c_cols, c_rows]
 caret = TTY::Cursor
-DEFAULT_MODE = 'buff'
-mode = DEFAULT_MODE
+default_mode = config.default_mode
+mode = default_mode
 cmd_char = nil
 cmd = nil
 cmd_str = cmd.to_s
@@ -67,7 +67,7 @@ loop do
 
   # handle special cmds: escape and exit
   break if cmd == 'exit'
-  ((mode = DEFAULT_MODE) && next) if cmd_char&.ord == 27  # esc key
+  ((mode = default_mode) && next) if cmd_char&.ord == 27  # esc key
 
   # handle all other commands
   case cmd
@@ -77,7 +77,7 @@ loop do
   when Array      # wildcard
   when String     # direct
     case mode
-    when 'buff'
+    when default_mode
       if fb.respond_to?(cmd)
         fb.send(cmd)
       elsif Cmds.respond_to?(cmd)
