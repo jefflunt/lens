@@ -1,0 +1,40 @@
+version: 1
+
+msgr:
+  name: lens buffer
+  desc: this messager makes lens buffers available over the network
+
+protos:
+  - name: c
+  - name: r
+  - name: visual_caret
+  - name: win_s
+  - name: win
+  - name: win=
+    desc: write all base types
+    msgs:
+      # type        var name
+      # ----------------------------------------------------
+      - bool        bool
+      - i8          i8
+      - u8          u8
+      - i8_list     i8_list
+      - u8_list     u8_list
+      - i16         i16
+      - u16         u16
+      - i16_list    i16_list
+      - u16_list    u16_list
+      - i32         i32
+      - u32         u32
+      - i32_list    i32_list
+      - u32_list    u32_list
+      - i64         i64
+      - u64         u64
+      - i64_list    i64_list
+      - u64_list    u64_list
+      - float       float
+      - float_list  float_list
+      - double      double
+      - double_list double_list
+      - str         str
+      - str_list    str_list

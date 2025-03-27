@@ -128,21 +128,32 @@ class Buffer
     adjust_win!
   end
 
+  # you can think the caret position as the exact (x, y) position within a file
+  # as a whole (like world coordinates within a video game), but the
+  # visual_caret as the (x, y) position within the rendered portion of the
+  # buffer (similar to screen coordinates within a buffer), but also offset by
+  # the width of the line numbers.
   def visual_caret
     [
       caret[0] - c + line_no_width + 1, # '+ 1' is to account for a space between line numbers and caret
       caret[1] - r
     ]
   end
+
   # returns an array of strings representing the visible characters from this
-  # FancyBuffer's @rect
+  # Buffer's @rect - i.e. the rectangle that will be rendered onto the screen
+  # when displayed to the user.
   def win_s
     return [] if h == 0 || w == 0
 
     @line_no_width = @lines.length.to_s.length
     if @edited_since_last_render
       @rendered_lines = @formatter
-        .format(@lexer.lex(@lines.join("\n")))
+        .format(
+          @lexer.lex(
+            @lines.join("\n")
+          )
+        )
         .lines
         .map(&:chomp)
 

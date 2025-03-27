@@ -6,3 +6,7 @@ gem 'tiny_color'
 gem 'tiny_dot'
 gem 'tiny_pipe'
 gem 'minitest'
+gem 'nmspec'
+
+gem 'pry'
+gem 'pry-nav'
