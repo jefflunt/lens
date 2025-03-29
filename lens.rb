@@ -92,4 +92,5 @@ loop do
   buff.win = [buff.c, buff.r, c_cols, c_rows - 1]
 end
 
+# TODO: shutdown the buffer proxy
 puts 'bye'

@@ -29,7 +29,16 @@ class BufferProxy
   end
 
   def send(msg)
-    @clients[@active_bufffer].puts msg
+    s = @clients[@active_buffer][:socket]
+    s.puts msg
+    resp = s.gets
+
+    if resp == 'error/close'
+      s.close
+      @clients.delete(@active_buffer)
+    end
+
+    resp
   end
 
   # marks the named buffer (by its path) as the active buffer, which will
@@ -54,8 +63,16 @@ class BufferProxy
 
       @responses[path] = { msgs: Queue.new, type: :passive }
       @active_buffer = path
-      @clients[path] = @server.accept
-      puts "accepted client #{@clients[path]}"
+      s = @server.accept
+      _, port, hostname, ip = s.addr
+
+      log_filename = s.gets.chomp
+      @clients[path] = {
+        socket: s,
+        path: path,
+        log_filename: log_filename,
+      }
+      puts "buff.accp path:#{path} log:#{log_filename} addr:#{hostname}:#{ip}:#{port}"
     end
   end
 
