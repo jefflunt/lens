@@ -24,9 +24,6 @@ require_relative './lib/buffer'
 
 config = Config.new(YAML.load(IO.read('config.yml')))
 
-SERVER_HOST = 'localhost'
-SERVER_PORT = 4685
-
 buff = Buffer.new(
   Rouge::Formatters::Terminal256.new,
   Rouge::Lexers::Ruby.new
@@ -51,7 +48,7 @@ loop do
   print caret.hide
   print caret.move_to(0, 0)
   puts buff.win_s
-  print "#{("#{mode.upcase} #{cmd_char&.ord} #{cmd_str}").ljust(20).black.on_white}\e[0K"
+  print "#{("#{mode.upcase} #{cmd_char&.ord} #{cmd_str}").ljust(30).black.on_white}\e[0K"
 
   cmd_char = nil
   cmd = nil
