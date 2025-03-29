@@ -60,7 +60,7 @@ class BufferProxy
   end
 
   def close_buffer(path)
-    @clients[path].close
+    @clients[path]&.close
     puts "closed buffer for #{path}"
   rescue IOError
     @clients.delete(path)

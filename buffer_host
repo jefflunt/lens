@@ -1,4 +1,0 @@
-#! /usr/bin/env ruby
-
-puts "loading ..."
-require_relative './lib/buffer_host'
