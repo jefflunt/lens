@@ -9,7 +9,7 @@ GEM
       method_source (~> 1.0)
     pry-nav (1.0.0)
       pry (>= 0.9.10, < 0.15)
-    rouge (4.1.2)
+    rouge (4.5.1)
     tiny_color (1.2.1)
     tiny_dot (2.0.0)
     tiny_pipe (1.0.1)
