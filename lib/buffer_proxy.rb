@@ -39,19 +39,30 @@ class BufferProxy
   end
 
   def spawn_buffer(path)
-    # spawn a new buffer host and pass the server host and port to it
-    # also handle client accept here, since there should be a 1:1 mapping
-    # between spawned buffers and connected clients
+    Thread.new do
+      # spawn a new buffer host and pass the server host and port to it
+      # also handle client accept here, since there should be a 1:1 mapping
+      # between spawned buffers and connected clients
 
-    # spawn a new process
-    Process.detach(
-      Process.spawn(
-        "./bin/buffer_host #{SERVER_HOST} #{SERVER_PORT} #{path}"
+      puts "spawning hosted buffer for #{path}"
+      # spawn a new process
+      Process.detach(
+        Process.spawn(
+          "ruby lib/buffer_host.rb #{SERVER_HOST} #{SERVER_PORT} #{path}"
+        )
       )
-    )
 
-    @responses[path] = { msgs: Queue.new, type: :passive }
-    @active_buffer = path
-    @clients[path] = @server.accept
+      @responses[path] = { msgs: Queue.new, type: :passive }
+      @active_buffer = path
+      @clients[path] = @server.accept
+      puts "accepted client #{@clients[path]}"
+    end
+  end
+
+  def close_buffer(path)
+    @clients[path].close
+    puts "closed buffer for #{path}"
+  rescue IOError
+    @clients.delete(path)
   end
 end
