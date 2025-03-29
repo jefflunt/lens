@@ -20,20 +20,22 @@ begin
   log_filename = "/tmp/buffer.#{SecureRandom.uuid}.log"
   File.open(log_filename, 'w') do |log_file|
     socket.puts log_filename
-    loop do
-      req = socket.gets.chomp
-      cmd, rest = req.split(' ', 2)
 
-      case cmd
+    buffer_msgr = BufferMsgr.new(socket, true)
+
+    loop do
+      opcode, payload = buffer_msgr.recv_any
+
+      case SoaMsgr::OP_TO_PROTO[opcode]
+      when 'buffer_close'
+        # save file, close socket
+        break
       when 'win='
-        log_file.puts req
+        # set the dimensions of the buffer
       else
-        log_file.puts "err: unknown req #{req}"
-        socket.puts 'error/close'
+        # when 
         break
       end
-
-      log_file.flush
     end
   end
 rescue NoMethodError, IOError

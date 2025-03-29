@@ -1,0 +1,18 @@
+#! /usr/bin/env ruby
+
+require 'nmspec'
+
+result = Nmspec::V1.gen({
+  'spec' => IO.read('lib/buffer_msgr.nmspec'),
+  'langs' => ['ruby3x']
+})
+
+File.open('lib/buffer_msgr.rb', 'w') do |f|
+  if result['valid']
+    f.puts result['code']['ruby3x']
+    puts 'ok'
+  else
+    puts 'fail'
+    puts result['errors'] || result['warnings']
+  end
+end
