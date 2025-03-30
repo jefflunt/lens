@@ -36,7 +36,7 @@ IO
 console = IO.console
 c_rows, c_cols = console.winsize
 c_rows -= 1
-buff.win = [0, 0, c_cols, c_rows]
+buff.rect = [0, 0, c_cols, c_rows]
 caret = TTY::Cursor
 default_mode = config.default_mode
 mode = default_mode
@@ -47,7 +47,7 @@ cmd_str = cmd.to_s    # this is the command to execute
 loop do
   print caret.hide
   print caret.move_to(0, 0)
-  puts buff.win_s
+  puts buff.rect_s
   print "#{("#{mode.upcase} #{cmd_char&.ord} #{cmd_str}").ljust(30).black.on_white}\e[0K"
 
   cmd_char = nil
@@ -89,7 +89,7 @@ loop do
   end
 
   c_rows, c_cols = console.winsize
-  buff.win = [buff.c, buff.r, c_cols, c_rows - 1]
+  buff.rect = [buff.c, buff.r, c_cols, c_rows - 1]
 end
 
 # TODO: shutdown the buffer proxy

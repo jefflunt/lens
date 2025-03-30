@@ -18,7 +18,7 @@ class Buffer
   def initialize(formatter, lexer)
     @formatter = formatter
     @lexer = lexer
-    @win = [0, 0, 0, 0]    # the default slice is at the beginning of the buffer, and has a zero size
+    @rect = [0, 0, 0, 0]    # the default slice is at the beginning of the buffer, and has a zero size
     @caret = [c, r]
 
     # size tracking
@@ -38,29 +38,29 @@ class Buffer
   # move the buffer's visible coordinates, and possibly the caret as well, if
   # moving the window would cause the caret to be out-of-bounds
   def rect=(coords)
-    @win = coords
+    @rect = coords
 
     adjust_caret!
   end
 
   # index of first visible column
   def c
-    @win[0]
+    @rect[0]
   end
 
   # index of first visible row
   def r
-    @win[1]
+    @rect[1]
   end
 
   # width of the buffer window
   def w
-    @win[2]
+    @rect[2]
   end
 
   # height of the buffer window
   def h
-    @win[3]
+    @rect[3]
   end
 
   def adjust_caret!
@@ -86,7 +86,7 @@ class Buffer
 
   def adjust_win!
     cx, cy = visual_caret
-    wx, wy = @win[0], @win[1]
+    wx, wy = @rect[0], @rect[1]
 
     new_wx = if cx > (c + w - 1)
                wx + 1
@@ -104,8 +104,8 @@ class Buffer
                wy
              end
 
-    @win[0] = wx
-    @win[1] = wy
+    @rect[0] = wx
+    @rect[1] = wy
   end
 
   def caret_down!
@@ -203,30 +203,30 @@ class Buffer
 
   # the number of blank lines in the buffer after showing all visible lines
   def blank_lines
-    [@win[3] - visible_lines, 0].max
+    [@rect[3] - visible_lines, 0].max
   end
 
   # scrolls the visible window up
   def buff_up!(n=1)
-    @win[1] = [@win[1] - n, 0].max
+    @rect[1] = [@rect[1] - n, 0].max
     adjust_caret!
   end
 
   # scrolls the visible window down
   def buff_down!(n=1)
-    @win[1] = [@win[1] + n, @lines.length - 1].min
+    @rect[1] = [@rect[1] + n, @lines.length - 1].min
     adjust_caret!
   end
 
   # scrolls the visible window left
   def buff_left!(n=1)
-    @win[0] = [@win[0] - n, 0].max
+    @rect[0] = [@rect[0] - n, 0].max
     adjust_caret!
   end
 
   # scrolls the visible window right
   def buff_right!(n=1)
-    @win[0] = [@win[0] + n, max_char_width - 1].min
+    @rect[0] = [@rect[0] + n, max_char_width - 1].min
     adjust_caret!
   end
 
