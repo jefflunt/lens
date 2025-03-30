@@ -6,15 +6,19 @@ require 'socket'
 # msgr specification for lens hosted buffers
 class BuffermsgrMsgr
   PROTO_TO_OP = {
-    'open_path' => 0,
+    'load' => 0,
     'set_rect' => 1,
     'get_rect' => 2,
+    'get_rect_s' => 3,
+    'get_caret_local_pos' => 4,
   }
 
   OP_TO_PROTO = {
-    0 => 'open_path',
+    0 => 'load',
     1 => 'set_rect',
     2 => 'get_rect',
+    3 => 'get_rect_s',
+    4 => 'get_caret_local_pos',
   }
 
   def initialize(socket, no_delay=false)
@@ -287,12 +291,13 @@ class BuffermsgrMsgr
   alias_method :w_rect, :w_u16_list
   alias_method :r_buff_text, :r_str_list
   alias_method :w_buff_text, :w_str_list
+
   ###########################################
   # messages
   ###########################################
 
   # open a file specified by the path
-  def send_open_path(path)
+  def send_load(path)
     w_u8(0)
     w_path(path)
     []
@@ -304,7 +309,7 @@ class BuffermsgrMsgr
   # [
   #    path         | path
   # ]
-  def recv_open_path
+  def recv_load
     path = r_path
     [path]
   end
@@ -345,6 +350,42 @@ class BuffermsgrMsgr
     [dimensions]
   end
 
+  # get the visible rectangular bit of the buffer
+  def send_get_rect_s(buff_text)
+    w_u8(3)
+    w_buff_text(buff_text)
+    []
+  end
+
+  # get the visible rectangular bit of the buffer
+  #
+  # returns:  (type | local var name)
+  # [
+  #    buff_text    | buff_text
+  # ]
+  def recv_get_rect_s
+    buff_text = r_buff_text
+    [buff_text]
+  end
+
+  # get the buffer-local coordinates for caret
+  def send_get_caret_local_pos(caret)
+    w_u8(4)
+    w_u16_list(caret)
+    []
+  end
+
+  # get the buffer-local coordinates for caret
+  #
+  # returns:  (type | local var name)
+  # [
+  #    u16_list     | caret
+  # ]
+  def recv_get_caret_local_pos
+    caret = r_u16_list
+    [caret]
+  end
+
   # This method is used when you're receiving protocol messages
   # in an unknown order, and dispatching automatically.
   #
@@ -355,9 +396,11 @@ class BuffermsgrMsgr
   #       effective for streaming in read-only protocol messages.
   def recv_any(params=[])
     case @socket.recv(1).unpack('C').first
-    when 0 then [0, recv_open_path(*params)]
+    when 0 then [0, recv_load(*params)]
     when 1 then [1, recv_set_rect(*params)]
     when 2 then [2, recv_get_rect(*params)]
+    when 3 then [3, recv_get_rect_s(*params)]
+    when 4 then [4, recv_get_caret_local_pos(*params)]
     end
   end
 end

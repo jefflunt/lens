@@ -7,10 +7,11 @@ result = Nmspec::V1.gen({
   'langs' => ['ruby3x']
 })
 
-File.open('lib/buffer_msgr.rb', 'w') do |f|
+filename = 'lib/buffer_msgr.rb'
+File.open(filename, 'w') do |f|
   if result['valid']
     f.puts result['code']['ruby3x']
-    puts 'ok'
+    puts "ok #{filename}"
   else
     puts 'fail'
     puts result['errors'] || result['warnings']

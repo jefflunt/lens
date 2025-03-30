@@ -35,9 +35,9 @@ class Buffer
     @selections = {}
   end
 
-  # move the window coordinates, and possibly the caret as well, if moving the
-  # window would cause the caret to be out-of-bounds
-  def win=(coords)
+  # move the buffer's visible coordinates, and possibly the caret as well, if
+  # moving the window would cause the caret to be out-of-bounds
+  def rect=(coords)
     @win = coords
 
     adjust_caret!
@@ -143,7 +143,7 @@ class Buffer
   # returns an array of strings representing the visible characters from this
   # Buffer's @rect - i.e. the rectangle that will be rendered onto the screen
   # when displayed to the user.
-  def win_s
+  def rect_s
     return [] if h == 0 || w == 0
 
     @line_no_width = @lines.length.to_s.length

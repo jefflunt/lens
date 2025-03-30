@@ -14,7 +14,7 @@ types:
   - str_list  buff_text   # a rectangle of buffer text for display
 
 protos:
-  - name: open_path
+  - name: load
     desc: open a file specified by the path
     msgs:
     - path path
@@ -28,3 +28,13 @@ protos:
     desc: get the dimen
     msgs:
     - rect dimensions
+
+  - name: get_rect_s
+    desc: get the visible rectangular bit of the buffer
+    msgs:
+    - buff_text buff_text
+
+  - name: get_caret_local_pos
+    desc: get the buffer-local coordinates for caret
+    msgs:
+    - u16_list caret
