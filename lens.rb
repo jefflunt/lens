@@ -18,15 +18,26 @@ require 'rouge'
 require 'tiny_color'
 require 'yaml'
 require 'rouge'
+require 'nobject/local'
+require 'nobject/server'
 require_relative './cmds'
 require_relative './lib/config'
 require_relative './lib/buffer'
 
 config = Config.new(YAML.load(IO.read('config.yml')))
 
-buff = Buffer.new(
-  Rouge::Formatters::Terminal256.new,
-  Rouge::Lexers::Ruby.new
+# start buffer server
+BUFF_SERVER_PORT = 6781
+buff_server = Nobject::Server.new(BUFF_SERVER_PORT)
+Thread.new { buff_server.start! }
+
+buff = Nobject::Local.new(
+  'localhost',
+  BUFF_SERVER_PORT,
+  Buffer.new(
+    Rouge::Formatters::Terminal256.new,
+    Rouge::Lexers::Ruby.new
+  )
 )
 
 IO
@@ -74,14 +85,14 @@ loop do
   when String     # direct
     case mode
     when default_mode
-      if buff.respond_to?(cmd)
-        buff.send(cmd)
+      if cmd.start_with?('ms_')
+        mode = cmd.sub('ms_', '')
       elsif Cmds.respond_to?(cmd)
         Cmds.send(cmd)
-      elsif cmd.start_with?('ms_')
-        mode = cmd.sub('ms_', '')
-      else
-        print "\a"
+      else #sif buff.respond_to?(cmd)
+        buff.send(cmd)
+      #else
+      #  print "\a"
       end
     end
   when nil        # cmd not found
