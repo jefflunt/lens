@@ -35,6 +35,10 @@ class Buffer
     @selections = {}
   end
 
+  def method_missing(method, *args, **kwargs, &block)
+    print "\a"
+  end
+
   # move the buffer's visible coordinates, and possibly the caret as well, if
   # moving the window would cause the caret to be out-of-bounds
   def rect=(coords)

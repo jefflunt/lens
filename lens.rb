@@ -89,10 +89,8 @@ loop do
         mode = cmd.sub('ms_', '')
       elsif Cmds.respond_to?(cmd)
         Cmds.send(cmd)
-      else #sif buff.respond_to?(cmd)
+      else
         buff.send(cmd)
-      #else
-      #  print "\a"
       end
     end
   when nil        # cmd not found
