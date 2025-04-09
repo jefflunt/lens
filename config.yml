@@ -21,7 +21,7 @@ modes:                        # the list of modes
 
     "#": toggle_line_numbers      # toggle line numbers
     "/": ms_search                # mode switch to search
-    "?": help                     # open help
+    "?": help                     # open help - show keyboard shortcuts by default
 
     a: autosave_enable            # enable auto-save (this is on by default)
     A: autosave_disable           # disable auto-save
