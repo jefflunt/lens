@@ -71,7 +71,7 @@ loop do
   cmd_str = cmd.to_s
 
   # visual caret repositioning
-  print caret.move_to(*buff.visual_caret)
+  print caret.move_to(*buff.screen_caret)
   print caret.show
 
   # cmd input and a couple of special cases
