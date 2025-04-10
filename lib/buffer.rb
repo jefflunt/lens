@@ -112,44 +112,40 @@ class Buffer
     @rect[1] = wy
   end
 
-  def caret_down!
-    @caret[1] = [caret[1] + 1, @lines.length - 1].min
+  def caret_down!(n=1)
+    @caret[1] = [caret[1] + n, @lines.length - 1].min
     adjust_rect!
   end
 
   def caret_down_fast!
-    @caret[1] = [caret[1] + 5, @lines.length - 1].min
-    adjust_rect!
+    caret_down!(5)
   end
 
-  def caret_up!
-    @caret[1] = [caret[1] - 1, 0].max
+  def caret_up!(n=1)
+    @caret[1] = [caret[1] - n, 0].max
     adjust_rect!
   end
 
   def caret_up_fast!
-    @caret[1] = [caret[1] - 5, 0].max
-    adjust_rect!
+    caret_up!(5)
   end
 
-  def caret_left!
-    @caret[0] = [caret[0] - 1, 0].max
+  def caret_left!(n=1)
+    @caret[0] = [caret[0] - n, 0].max
     adjust_rect!
   end
 
   def caret_left_fast!
-    @caret[0] = [caret[0] - 5, 0].max
-    adjust_rect!
+    caret_left!(5)
   end
 
-  def caret_right!
-    @caret[0] = [caret[0] + 1, @lines[caret[1]].length - 1].min
+  def caret_right!(n=1)
+    @caret[0] = [caret[0] + n, @lines[caret[1]].length - 1].min
     adjust_rect!
   end
 
   def caret_right_fast!
-    @caret[0] = [caret[0] + 5, @lines[caret[1]].length - 1].min
-    adjust_rect!
+    caret_right!(5)
   end
 
   # you can think the caret position as the exact (x, y) position within a file
@@ -239,10 +235,18 @@ class Buffer
     adjust_caret!
   end
 
+  def rect_up_fast!
+    rect_up!(5)
+  end
+
   # scrolls the visible window down
   def rect_down!(n=1)
     @rect[1] = [@rect[1] + n, @lines.length - 1].min
     adjust_caret!
+  end
+
+  def rect_down_fast!
+    rect_down!(5)
   end
 
   # scrolls the visible window left
@@ -251,10 +255,18 @@ class Buffer
     adjust_caret!
   end
 
+  def rect_left_fast!
+    rect_left!(5)
+  end
+
   # scrolls the visible window right
   def rect_right!(n=1)
     @rect[0] = [@rect[0] + n, max_char_width - 1].min
     adjust_caret!
+  end
+
+  def rect_right_fast!
+    rect_right!(5)
   end
 
   # set a mark, as in the Vim sense

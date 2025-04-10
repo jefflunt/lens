@@ -27,7 +27,7 @@ class TestConfig < Minitest::Test
     assert_equal 'reload_config', @config.cmd('buffer', :R, 'C')
 
     # confirming works in other modes as well
-    assert_equal 'pan_left', @config.cmd('pan', nil, 'h')
+    assert_equal 'rect_left!', @config.cmd('pan', nil, 'h')
     assert_equal :c, @config.cmd('select', nil, 'c')
     assert_equal ['copy_to', 'c'], @config.cmd('select', :c, 'c')
 

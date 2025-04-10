@@ -54,14 +54,14 @@ modes:                        # the list of modes
     v: version_start              # undo/redo version tree? not sure what this is
     x: exit                       # exit/quit lens
   pan:                          # buffer panning mode
-    h: pan_left                   # pan left
-    j: pan_down                   # pan down
-    k: pan_up                     # pan up
-    l: pan_right                  # pan right
-    H: pan_left_fast              # pan left faster
-    J: pan_down_fast              # pan down faster
-    K: pan_up_fast                # pan up faster
-    L: pan_right_fast             # pan right faster
+    h: rect_left!                 # pan left
+    j: rect_down!                 # pan down
+    k: rect_up!                   # pan up
+    l: rect_right!                # pan right
+    H: rect_left_fast!            # pan left faster
+    J: rect_down_fast!            # pan down faster
+    K: rect_up_fast!              # pan up faster
+    L: rect_right_fast!           # pan right faster
   select:                       # text selection mode
     h: sel_more_left              # select more to the left
     j: sel_more_down              # select more one line down

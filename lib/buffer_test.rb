@@ -12,6 +12,11 @@ class TestBuffer < Minitest::Test
     @buff.rect = [0, 0, 40, 20]
   end
 
+  # r = rows
+  # c = columns
+  # w = width
+  # h = height
+  # together they are the visible rectangle
   def test_rcwh_and_scroll
     assert_equal 0, @buff.r
     assert_equal 0, @buff.c
@@ -38,7 +43,7 @@ class TestBuffer < Minitest::Test
     assert_equal 20, @buff.h
   end
 
-  def test_caret_and_manual_buff_adjustments
+  def test_caret_and_rect_adjustments
     # upon initialization, visual caret is in top-left corner of rect, adjusted
     # for the line number display
     assert_equal [0, 0, 40, 20], @buff.rect
@@ -50,8 +55,8 @@ class TestBuffer < Minitest::Test
     # rect, adjusted for the line number display
     @buff.rect = [1, 1, 40, 20]
     assert_equal [1, 1, 40, 20], @buff.rect
-    assert_equal [1, 1], @buff.caret
-    assert_equal [2, 0], @buff.screen_caret
+    assert_equal [1, 1], @buff.caret          # the global coordinates move with the rectangle
+    assert_equal [2, 0], @buff.screen_caret   # the screen-local coordinates keep the caret in the upper-left
 
     # this reset of the visual caret applies across multiple moves
     @buff.rect = [2, 2, 40, 20]
@@ -131,6 +136,8 @@ class TestBuffer < Minitest::Test
     assert_equal [2, 0], @buff.caret
     assert_equal [4, 0], @buff.screen_caret
 
+    # when the caret is already as far as it can go in a given direction,
+    # nothing changes
     @buff.caret_up!
     assert_equal [0, 0, 40, 20], @buff.rect
     assert_equal [2, 0], @buff.caret
@@ -166,6 +173,7 @@ class TestBuffer < Minitest::Test
     assert_equal [5, 3], @buff.caret
     assert_equal [7, 3], @buff.screen_caret
 
+    # can't go any further to the right, so the coordinates don't change
     @buff.caret_right!
     assert_equal [0, 0, 40, 20], @buff.rect
     assert_equal [5, 3], @buff.caret
@@ -200,6 +208,79 @@ class TestBuffer < Minitest::Test
     assert_equal [0, 0, 40, 20], @buff.rect
     assert_equal [0, 3], @buff.caret
     assert_equal [2, 3], @buff.screen_caret
+
+    @buff.caret_up_fast!
+    assert_equal [0, 0, 40, 20], @buff.rect
+    assert_equal [0, 0], @buff.caret
+    assert_equal [2, 0], @buff.screen_caret
+
+    @buff.caret_left_fast!
+    assert_equal [0, 0, 40, 20], @buff.rect
+    assert_equal [0, 0], @buff.caret
+    assert_equal [2, 0], @buff.screen_caret
+
+    @buff.caret_right_fast!
+    assert_equal [0, 0, 40, 20], @buff.rect
+    assert_equal [5, 0], @buff.caret
+    assert_equal [7, 0], @buff.screen_caret
+
+    @buff.caret_down_fast!
+    assert_equal [0, 0, 40, 20], @buff.rect
+    assert_equal [5, 5], @buff.caret
+    assert_equal [7, 5], @buff.screen_caret
+
+    # we're already at the bottom
+    @buff.caret_down_fast!
+    assert_equal [0, 0, 40, 20], @buff.rect
+    assert_equal [5, 5], @buff.caret
+    assert_equal [7, 5], @buff.screen_caret
+
+    # we're already all the way to the right
+    @buff.caret_right_fast!
+    assert_equal [0, 0, 40, 20], @buff.rect
+    assert_equal [5, 5], @buff.caret
+    assert_equal [7, 5], @buff.screen_caret
+
+    # panning
+    @buff.rect_right_fast!
+    assert_equal [5, 0, 40, 20], @buff.rect
+    assert_equal [5, 5], @buff.caret
+    assert_equal [2, 5], @buff.screen_caret
+
+    @buff.rect_down_fast!
+    assert_equal [5, 5, 40, 20], @buff.rect
+    assert_equal [5, 5], @buff.caret
+    assert_equal [2, 0], @buff.screen_caret
+
+    @buff.rect_left_fast!
+    assert_equal [0, 5, 40, 20], @buff.rect
+    assert_equal [5, 5], @buff.caret
+    assert_equal [7, 0], @buff.screen_caret
+
+    @buff.rect_up_fast!
+    assert_equal [0, 0, 40, 20], @buff.rect
+    assert_equal [5, 5], @buff.caret
+    assert_equal [7, 5], @buff.screen_caret
+
+    # cannot pan beyond the limit
+    @buff.rect_up_fast!
+    assert_equal [0, 0, 40, 20], @buff.rect
+    assert_equal [5, 5], @buff.caret
+    assert_equal [7, 5], @buff.screen_caret
+
+    @buff.rect_down_fast!
+    @buff.rect_down_fast!
+    @buff.rect_right_fast!
+    @buff.rect_right_fast!
+    assert_equal [5, 5, 40, 20], @buff.rect
+    assert_equal [5, 5], @buff.caret
+    assert_equal [2, 0], @buff.screen_caret
+
+    # reveal a bit of the last line
+    @buff.rect_left!(3)
+    @buff.rect_up!(3)
+
+    assert_equal @buff.rect_s.join("\n"), "3 \e[38;5;230m\e[39m\e[38;5;230mne\e[39m\e[38;5;230m \e[39m\e[38;5;212;01m3\e[39;00m\e[38;5;230m\e[39m\e[0m\e[0K\n4 \e[38;5;230m\e[39m\e[38;5;230mne\e[39m\e[38;5;230m \e[39m\e[38;5;212;01m4\e[39;00m\e[38;5;230m\e[39m\e[0m\e[0K\n5 \e[38;5;230m\e[39m\e[38;5;230mne\e[39m\e[38;5;230m \e[39m\e[38;5;212;01m5\e[39;00m\e[38;5;230m\e[39m\e[0m\e[0K\n6 \e[38;5;230m\e[39m\e[38;5;230mne\e[39m\e[38;5;230m \e[39m\e[38;5;212;01m6\e[39;00m\e[0m\e[0K\n\e[0K\n\e[0K\n\e[0K\n\e[0K\n\e[0K\n\e[0K\n\e[0K\n\e[0K\n\e[0K\n\e[0K\n\e[0K\n\e[0K\n\e[0K\n\e[0K\n\e[0K\n\e[0K"
   end
 
   def test_substr_with_color
@@ -211,6 +292,10 @@ class TestBuffer < Minitest::Test
     assert_equal "\e[31m\e[32morld\e[0m!\e[0m", @buff.substr_with_color(input, 7, 99)
   end
 
+  # visible lines are the number of lines from the buffer's content that are
+  # visible at any particular point. for example, if you have a 100-line fail
+  # and a buffer that's only 10 lines tall, then unless you scroll past the end
+  # of the file then there will always be 10 of the 100 lines visible.
   def test_visible_lines
     assert_equal 6, @buff.visible_lines
 
@@ -245,6 +330,10 @@ class TestBuffer < Minitest::Test
     assert_equal 1, @buff.visible_lines
   end
 
+  # blank lines are the number of lines that don't contain buffer content. for
+  # example, if you have a buffer that is 100 lines tall, but it's displaying a
+  # file that only contains 10 linues of text, then 90 of the 100 lines will be
+  # blank.
   def test_blank_lines
     assert_equal 14, @buff.blank_lines
 

@@ -30,7 +30,7 @@ config = Config.new(YAML.load(IO.read('config.yml')))
 # start buffer server
 BUFF_SERVER_PORT = 6781
 buff_server = Nobject::Server.new(BUFF_SERVER_PORT)
-log = TinyLog.new(filename: '/tmp/lens.log', buffering: false, background_thread: true)
+log = TinyLog.new(filename: '/tmp/lens.log', buffering: false, background_thread: false)
 
 Thread.new { buff_server.start! }
 
@@ -82,6 +82,7 @@ loop do
   ((mode = default_mode) && next) if cmd_char&.ord == 27  # esc key
 
   # handle cmds
+  log.cmd(cmd)
   case cmd
   when Symbol     # ready subcmd
     cmd = config.cmd(mode, cmd, $stdin.getch)
