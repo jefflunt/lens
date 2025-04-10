@@ -82,7 +82,6 @@ loop do
   ((mode = default_mode) && next) if cmd_char&.ord == 27  # esc key
 
   # handle cmds
-  log.cmd(cmd)
   case cmd
   when Symbol     # ready subcmd
     cmd = config.cmd(mode, cmd, $stdin.getch)
@@ -102,6 +101,7 @@ loop do
   when nil        # cmd not found
     print "\a"
   end
+  log.cmd("#{cmd} c[#{buff.caret.join(', ')}] sc[#{buff.screen_caret.join(', ')}] w[#{buff.rect.join(', ')}]")
 
   c_rows, c_cols = console.winsize
   buff.rect = [buff.c, buff.r, c_cols, c_rows - 1]
