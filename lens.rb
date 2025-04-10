@@ -88,20 +88,17 @@ loop do
     cmd_str = cmd
   when Array      # wildcard
   when String     # direct
-    case mode
-    when default_mode
-      if cmd.start_with?('ms_')
-        mode = cmd.sub('ms_', '')
-      elsif Cmds.respond_to?(cmd)
-        Cmds.send(cmd)
-      else
-        buff.send(cmd)
-      end
+    if cmd.start_with?('ms_')
+      mode = cmd.sub('ms_', '')
+    elsif Cmds.respond_to?(cmd)
+      Cmds.send(cmd)
+    else
+      buff.send(cmd)
     end
   when nil        # cmd not found
     print "\a"
   end
-  log.cmd("#{cmd} c[#{buff.caret.join(', ')}] sc[#{buff.screen_caret.join(', ')}] w[#{buff.rect.join(', ')}]")
+  log.cmd("#{cmd.nil? ? 'nil' : cmd} c[#{buff.caret.join(', ')}] sc[#{buff.screen_caret.join(', ')}] w[#{buff.rect.join(', ')}]")
 
   c_rows, c_cols = console.winsize
   buff.rect = [buff.c, buff.r, c_cols, c_rows - 1]
