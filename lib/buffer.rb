@@ -6,7 +6,7 @@ class Buffer
               :length,
               :line_no_width,
               :max_char_width,
-              :win,
+              :rect,
               :caret,
               :marks,
               :selections
@@ -88,7 +88,7 @@ class Buffer
     @caret = [new_cx, new_cy]
   end
 
-  def adjust_win!
+  def adjust_rect!
     cx, cy = visual_caret
     wx, wy = @rect[0], @rect[1]
 
@@ -114,22 +114,22 @@ class Buffer
 
   def caret_down!
     @caret[1] = [caret[1] + 1, @lines.length - 1].min
-    adjust_win!
+    adjust_rect!
   end
 
   def caret_up!
     @caret[1] = [caret[1] - 1, 0].max
-    adjust_win!
+    adjust_rect!
   end
 
   def caret_left!
     @caret[0] = [caret[0] - 1, 0].max
-    adjust_win!
+    adjust_rect!
   end
 
   def caret_right!
     @caret[0] = [caret[0] + 1, @lines[caret[1]].length - 1].min
-    adjust_win!
+    adjust_rect!
   end
 
   # you can think the caret position as the exact (x, y) position within a file
@@ -211,25 +211,25 @@ class Buffer
   end
 
   # scrolls the visible window up
-  def buff_up!(n=1)
+  def rect_up!(n=1)
     @rect[1] = [@rect[1] - n, 0].max
     adjust_caret!
   end
 
   # scrolls the visible window down
-  def buff_down!(n=1)
+  def rect_down!(n=1)
     @rect[1] = [@rect[1] + n, @lines.length - 1].min
     adjust_caret!
   end
 
   # scrolls the visible window left
-  def buff_left!(n=1)
+  def rect_left!(n=1)
     @rect[0] = [@rect[0] - n, 0].max
     adjust_caret!
   end
 
   # scrolls the visible window right
-  def buff_right!(n=1)
+  def rect_right!(n=1)
     @rect[0] = [@rect[0] + n, max_char_width - 1].min
     adjust_caret!
   end
