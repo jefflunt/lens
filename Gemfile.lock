@@ -13,6 +13,7 @@ GEM
     rouge (4.5.1)
     tiny_color (1.2.1)
     tiny_dot (2.0.0)
+    tiny_log (2.1.0)
     tiny_pipe (1.0.1)
     tty-cursor (0.7.1)
 
@@ -28,6 +29,7 @@ DEPENDENCIES
   rouge
   tiny_color
   tiny_dot
+  tiny_log
   tiny_pipe
   tty-cursor
 

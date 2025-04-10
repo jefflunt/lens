@@ -89,7 +89,7 @@ class Buffer
   end
 
   def adjust_rect!
-    cx, cy = visual_caret
+    cx, cy = screen_caret
     wx, wy = @rect[0], @rect[1]
 
     new_wx = if cx > (c + w - 1)
@@ -117,8 +117,18 @@ class Buffer
     adjust_rect!
   end
 
+  def caret_down_fast!
+    @caret[1] = [caret[1] + 5, @lines.length - 1].min
+    adjust_rect!
+  end
+
   def caret_up!
     @caret[1] = [caret[1] - 1, 0].max
+    adjust_rect!
+  end
+
+  def caret_up_fast!
+    @caret[1] = [caret[1] - 5, 0].max
     adjust_rect!
   end
 
@@ -127,17 +137,27 @@ class Buffer
     adjust_rect!
   end
 
+  def caret_left_fast!
+    @caret[0] = [caret[0] - 5, 0].max
+    adjust_rect!
+  end
+
   def caret_right!
     @caret[0] = [caret[0] + 1, @lines[caret[1]].length - 1].min
     adjust_rect!
   end
 
+  def caret_right_fast!
+    @caret[0] = [caret[0] + 5, @lines[caret[1]].length - 1].min
+    adjust_rect!
+  end
+
   # you can think the caret position as the exact (x, y) position within a file
   # as a whole (like world coordinates within a video game), but the
-  # visual_caret as the (x, y) position within the rendered portion of the
+  # screen_caret as the (x, y) position within the rendered portion of the
   # buffer (similar to screen coordinates within a buffer), but also offset by
   # the width of the line numbers.
-  def visual_caret
+  def screen_caret
     [
       caret[0] - c + line_no_width + 1, # '+ 1' is to account for a space between line numbers and caret
       caret[1] - r
@@ -205,7 +225,10 @@ class Buffer
     [h, @lines.length - r].min
   end
 
-  # the number of blank lines in the buffer after showing all visible lines
+  # the number of blank lines in the buffer after showing all visible lines.
+  # this happens, for example, when you pan the buffer to the absolute last line
+  # of the file - that last line now appears at the top of the rendered rect,
+  # but below it nothing but blank lines, then the status line.
   def blank_lines
     [@rect[3] - visible_lines, 0].max
   end

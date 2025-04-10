@@ -18,6 +18,7 @@ require 'rouge'
 require 'tiny_color'
 require 'yaml'
 require 'rouge'
+require 'tiny_log'
 require 'nobject/local'
 require 'nobject/server'
 require_relative './cmds'
@@ -29,6 +30,8 @@ config = Config.new(YAML.load(IO.read('config.yml')))
 # start buffer server
 BUFF_SERVER_PORT = 6781
 buff_server = Nobject::Server.new(BUFF_SERVER_PORT)
+log = TinyLog.new(filename: '/tmp/lens.log', buffering: false, background_thread: true)
+
 Thread.new { buff_server.start! }
 
 buff = Nobject::Local.new(
@@ -46,8 +49,10 @@ IO
 
 console = IO.console
 c_rows, c_cols = console.winsize
-c_rows -= 1
+c_rows -= 1                         # to leave space for the status line
 buff.rect = [0, 0, c_cols, c_rows]
+log.buff([c_cols, c_rows].join(','))
+log.buff(buff.rect.join(', '))
 caret = TTY::Cursor
 default_mode = config.default_mode
 mode = default_mode

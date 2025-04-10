@@ -34,6 +34,10 @@ modes:                        # the list of modes
     j: caret_down!                # move the cursor down
     k: caret_up!                  # move the cursor up
     l: caret_right!               # move the cursor right
+    H: caret_left_fast!           # move the cursor to the left 5x
+    J: caret_down_fast!           # move the cursor down 5x
+    K: caret_up_fast!             # move the cursor up 5x
+    L: caret_right_fast!          # move the cursor right 5x
     n: notes_toggle               # toggle the display of notes for the current file; notes are like comments, but they're stored alongside the file, and not in it
     N: note_add                   # add a new note to the current file
     m*: mark_set                  # set the mark by letter
