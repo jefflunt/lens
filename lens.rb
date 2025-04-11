@@ -81,22 +81,28 @@ loop do
   break if cmd == 'exit'
   ((mode = default_mode) && next) if cmd_char&.ord == 27  # esc key
 
-  # handle cmds
-  case cmd
-  when Symbol     # ready subcmd
-    cmd = config.cmd(mode, cmd, $stdin.getch)
-    cmd_str = cmd
-  when Array      # wildcard
-  when String     # direct
-    if cmd.start_with?('ms_')
-      mode = cmd.sub('ms_', '')
-    elsif Cmds.respond_to?(cmd)
-      Cmds.send(cmd)
-    else
-      buff.send(cmd)
+  case mode
+  when 'insert'
+    buff.insert(cmd_char)
+  else
+    # handle cmds
+    case cmd
+    when Symbol     # ready subcmd
+      cmd = config.cmd(mode, cmd, $stdin.getch)
+      cmd_str = cmd
+    when Array      # wildcard
+      buff.send(cmd.first, *cmd[1..])
+    when String     # direct
+      if cmd.start_with?('ms_')
+        mode = cmd.sub('ms_', '')
+      elsif Cmds.respond_to?(cmd)
+        Cmds.send(cmd)
+      else
+        buff.send(cmd)
+      end
+    when nil        # cmd not found
+      print "\a"
     end
-  when nil        # cmd not found
-    print "\a"
   end
   log.cmd("#{cmd.nil? ? 'nil' : cmd} c[#{buff.caret.join(', ')}] sc[#{buff.screen_caret.join(', ')}] w[#{buff.rect.join(', ')}]")
 

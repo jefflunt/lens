@@ -410,4 +410,7 @@ class TestBuffer < Minitest::Test
     @buff.unselect(:sel2)
     assert_equal({}, @buff.selections)
   end
+
+  def test_insert
+  end
 end
