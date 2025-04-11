@@ -11,10 +11,8 @@ GEM
     pry-nav (1.0.0)
       pry (>= 0.9.10, < 0.15)
     rouge (4.5.1)
-    tiny_color (1.2.1)
-    tiny_dot (2.0.0)
+    tiny_color (1.3.1)
     tiny_log (2.1.0)
-    tiny_pipe (1.0.1)
     tty-cursor (0.7.1)
 
 PLATFORMS
@@ -28,9 +26,7 @@ DEPENDENCIES
   pry-nav
   rouge
   tiny_color
-  tiny_dot
   tiny_log
-  tiny_pipe
   tty-cursor
 
 BUNDLED WITH

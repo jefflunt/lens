@@ -411,6 +411,36 @@ class TestBuffer < Minitest::Test
     assert_equal({}, @buff.selections)
   end
 
-  def test_insert
+  def test_insert_backspace_replace_and_history
+    assert_equal [], @buff.history
+    assert_equal 36, @buff.bytes
+    assert_equal 36, @buff.chars
+    assert_equal [0, 0], @buff.caret
+    assert_equal [2, 0], @buff.screen_caret
+
+    @buff.insert!('a')
+    assert_equal [:ins, 'a', [0, 0]], @buff.history.last
+    assert_equal 'aline 1', @buff.line_at(@buff.caret[1])
+    assert_equal 37, @buff.bytes
+    assert_equal 37, @buff.chars
+    assert_equal [1, 0], @buff.caret
+    assert_equal [3, 0], @buff.screen_caret
+
+    @buff.backspace!
+    assert_equal [:backsp, [1, 0]], @buff.history.last
+    assert_equal 'line 1', @buff.line_at(@buff.caret[1])
+    assert_equal 36, @buff.bytes
+    assert_equal 36, @buff.chars
+    assert_equal [0, 0], @buff.caret
+    assert_equal [2, 0], @buff.screen_caret
+
+    # can't backspace when you're at the beginning of the line already
+    @buff.backspace!
+    assert_equal [:backsp, [1, 0]], @buff.history.last
+    assert_equal 'line 1', @buff.line_at(@buff.caret[1])
+    assert_equal 36, @buff.bytes
+    assert_equal 36, @buff.chars
+    assert_equal [0, 0], @buff.caret
+    assert_equal [2, 0], @buff.screen_caret
   end
 end

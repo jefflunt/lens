@@ -8,6 +8,7 @@ class Buffer
               :max_char_width,
               :rect,
               :caret,
+              :history,
               :marks,
               :selections
 
@@ -31,12 +32,17 @@ class Buffer
     @max_char_width = 0
     @all_buff = @lines.join("\n")
 
+    @history = []
     @marks = {}
     @selections = {}
   end
 
   def method_missing(method, *args, **kwargs, &block)
     print "\a"
+  end
+
+  def line_at(i)
+    @lines[i]
   end
 
   # move the buffer's visible coordinates, and possibly the caret as well, if
@@ -317,19 +323,47 @@ class Buffer
   def <<(line)
     line.chomp!
     @lines << line
-    @bytes += line.length
-    @chars += line.chars.length
+    @bytes += line.bytesize
+    @chars += line.length
     @max_char_width = line.chars.length if line.chars.length > @max_char_width
 
     @edited_since_last_render = true
     nil
   end
+
+  def insert!(char)
+    @history << [:ins, char, [caret[0], caret[1]]]
+    @lines[caret[1]].insert(caret[0], char)
+    @bytes += char.bytesize
+    @chars += char.length
+    @caret[0] += 1
+    @edited_since_last_render = true
+
+    nil
+  end
+
+  def backspace!
+    return if caret[0] == 0
+
+    index_to_delete = caret[0] - 1
+    char_removed = @lines[caret[1]][caret[0]]
+
+    @history << [:backsp, [caret[0], caret[1]]]
+    @lines[caret[1]] = @lines[caret[1]][...index_to_delete] + @lines[caret[1]][(index_to_delete + 1)..]
+    @bytes -= char_removed.bytesize
+    @chars -= char_removed.length
+    @caret[0] -= 1
+    @edited_since_last_render = true
+
+    nil
+  end
+
 #
 #  # deletes and returns the last line of this buffer
 #  def pop
 #    l = @lines.pop
-#    @bytes -= l.length
-#    @chars -= l.chars.length
+#    @bytes -= l.bytesize
+#    @chars -= l.length
 #
 #    nil
 #  end
@@ -337,8 +371,8 @@ class Buffer
 #  # line: the line to be added to the beginning of the buffer
 #  def unshift(line)
 #    @lines.unshift(line)
-#    @bytes += line.length
-#    @chars += line.chars.length
+#    @bytes += line.bytesize
+#    @chars += line.length
 #
 #    nil
 #  end
@@ -347,7 +381,7 @@ class Buffer
 #  # deletes and returns the first line of the buffer
 #  def shift
 #    l = @lines.shift
-#    @bytes -= l.length
-#    @chars -= l.chars.length
+#    @bytes -= l.bytesize
+#    @chars -= l.length
 #  end
 end

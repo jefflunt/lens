@@ -64,7 +64,7 @@ loop do
   print caret.hide
   print caret.move_to(0, 0)
   puts buff.rect_s
-  print "#{("#{mode.upcase} #{cmd_char&.ord} #{cmd_str}").ljust(30).black.on_white}\e[0K"
+  print "#{("#{mode.upcase} #{cmd_char&.ord} #{cmd_str}").ljust(30).black.on_white}\e[0K #{buff.bytes}"
 
   cmd_char = nil
   cmd = nil
@@ -83,7 +83,14 @@ loop do
 
   case mode
   when 'insert'
-    buff.insert(cmd_char)
+    case cmd_char.ord
+    when 127  # backspace
+      buff.backspace!
+      log.backspace(buff.line_at(buff.caret[1]))
+    else
+      buff.insert!(cmd_char)
+      log.insert(buff.line_at(buff.caret[1]))
+    end
   else
     # handle cmds
     case cmd
