@@ -45,6 +45,10 @@ class Buffer
     @lines[i]
   end
 
+  def char_at(x, y)
+    (l = line_at(y)) && l[x]
+  end
+
   # move the buffer's visible coordinates, and possibly the caret as well, if
   # moving the window would cause the caret to be out-of-bounds
   def rect=(coords)
@@ -96,30 +100,31 @@ class Buffer
 
   def adjust_rect!
     cx, cy = screen_caret
-    wx, wy = @rect[0], @rect[1]
+    rx, ry = @rect[0], @rect[1]
 
-    new_wx = if cx > (c + w - 1)
-               wx + 1
+    new_rx = if cx > (c + w - 1)
+               rx + 1
              elsif cx < 0
-               wx - 1
+               rx - 1
              else
-               wx
+               rx
              end
 
-    new_wy = if cy > (r + h - 1)
-               wy + 1
+    new_ry = if cy > (r + h - 1)
+               ry + 1
              elsif cy < 0
-               wy - 1
+               ry - 1
              else
-               wy
+               ry
              end
 
-    @rect[0] = wx
-    @rect[1] = wy
+    @rect[0] = rx
+    @rect[1] = ry
   end
 
   def caret_down!(n=1)
     @caret[1] = [caret[1] + n, @lines.length - 1].min
+    @caret[0] = [caret[0], @lines[caret[1]].length].min
     adjust_rect!
   end
 
@@ -129,6 +134,7 @@ class Buffer
 
   def caret_up!(n=1)
     @caret[1] = [caret[1] - n, 0].max
+    @caret[0] = [caret[0], @lines[caret[1]].length].min
     adjust_rect!
   end
 

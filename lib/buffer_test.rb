@@ -292,6 +292,25 @@ class TestBuffer < Minitest::Test
     assert_equal "\e[31m\e[32morld\e[0m!\e[0m", @buff.substr_with_color(input, 7, 99)
   end
 
+  def test_char_at
+    assert_equal 'l', @buff.char_at(0, 0)
+    assert_equal 'i', @buff.char_at(1, 0)
+    assert_equal 'n', @buff.char_at(2, 0)
+    assert_equal 'e', @buff.char_at(3, 0)
+    assert_equal ' ', @buff.char_at(4, 0)
+    assert_equal '1', @buff.char_at(5, 0)
+
+    assert_equal 'l', @buff.char_at(0, 2)
+    assert_equal 'i', @buff.char_at(1, 2)
+    assert_equal 'n', @buff.char_at(2, 2)
+    assert_equal 'e', @buff.char_at(3, 2)
+    assert_equal ' ', @buff.char_at(4, 2)
+    assert_equal '3', @buff.char_at(5, 2)
+
+    assert_nil @buff.char_at(99, 99)
+    assert_equal '6', @buff.char_at(-1, -1)
+  end
+
   # visible lines are the number of lines from the buffer's content that are
   # visible at any particular point. for example, if you have a 100-line fail
   # and a buffer that's only 10 lines tall, then unless you scroll past the end
