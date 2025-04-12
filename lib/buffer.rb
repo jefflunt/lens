@@ -78,41 +78,41 @@ class Buffer
   end
 
   def adjust_caret!
-    cx, cy = @caret
-    new_cx = if cx < c
+    scx, scy = @caret
+    new_scx = if scx < c
                c
-             elsif cx > c + w
+             elsif scx > c + w
                w
              else
-               cx
+               scx
              end
 
-    new_cy = if cy < r
+    new_scy = if scy < r
                r
-             elsif cy > (r + h - 1)
+             elsif scy > (r + h - 1)
                r + h - 1
              else
-               cy
+               scy
              end
 
-    @caret = [new_cx, new_cy]
+    @caret = [new_scx, new_scy]
   end
 
   def adjust_rect!
-    cx, cy = screen_caret
+    scx, scy = screen_caret
     rx, ry = @rect[0], @rect[1]
 
-    new_rx = if cx > (c + w - 1)
+    new_rx = if scx > (c + w - 1)
                rx + 1
-             elsif cx < 0
+             elsif scx < 0
                rx - 1
              else
                rx
              end
 
-    new_ry = if cy > (r + h - 1)
+    new_ry = if scy > (r + h - 1)
                ry + 1
-             elsif cy < 0
+             elsif scy < 0
                ry - 1
              else
                ry
