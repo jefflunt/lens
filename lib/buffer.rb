@@ -77,6 +77,8 @@ class Buffer
     @rect[3]
   end
 
+  # used when the rect is panned, keeps the screen caret within the rect
+  # see: adjust_rect!
   def adjust_caret!
     cx, cy = @caret
     new_cx = if cx < c
@@ -98,6 +100,8 @@ class Buffer
     @caret = [new_cx, new_cy]
   end
 
+  # used when the caret is moved, keeps the rect to keep the caret visible
+  # see: adjust_caret!
   def adjust_rect!
     scx, scy = screen_caret
     rx, ry = @rect[0], @rect[1]
