@@ -176,6 +176,11 @@ class TestBuffer < Minitest::Test
     # can't go any further to the right, so the coordinates don't change
     @buff.caret_right!
     assert_equal [0, 0, 40, 20], @buff.rect
+    assert_equal [6, 3], @buff.caret
+    assert_equal [8, 3], @buff.screen_caret
+
+    @buff.caret_left!
+    assert_equal [0, 0, 40, 20], @buff.rect
     assert_equal [5, 3], @buff.caret
     assert_equal [7, 3], @buff.screen_caret
 
@@ -198,11 +203,6 @@ class TestBuffer < Minitest::Test
     assert_equal [0, 0, 40, 20], @buff.rect
     assert_equal [1, 3], @buff.caret
     assert_equal [3, 3], @buff.screen_caret
-
-    @buff.caret_left!
-    assert_equal [0, 0, 40, 20], @buff.rect
-    assert_equal [0, 3], @buff.caret
-    assert_equal [2, 3], @buff.screen_caret
 
     @buff.caret_left!
     assert_equal [0, 0, 40, 20], @buff.rect
@@ -238,43 +238,43 @@ class TestBuffer < Minitest::Test
     # we're already all the way to the right
     @buff.caret_right_fast!
     assert_equal [0, 0, 40, 20], @buff.rect
-    assert_equal [5, 5], @buff.caret
-    assert_equal [7, 5], @buff.screen_caret
+    assert_equal [6, 5], @buff.caret
+    assert_equal [8, 5], @buff.screen_caret
 
     # panning
     @buff.rect_right_fast!
     assert_equal [5, 0, 40, 20], @buff.rect
-    assert_equal [5, 5], @buff.caret
-    assert_equal [2, 5], @buff.screen_caret
+    assert_equal [6, 5], @buff.caret
+    assert_equal [3, 5], @buff.screen_caret
 
     @buff.rect_down_fast!
     assert_equal [5, 5, 40, 20], @buff.rect
-    assert_equal [5, 5], @buff.caret
-    assert_equal [2, 0], @buff.screen_caret
+    assert_equal [6, 5], @buff.caret
+    assert_equal [3, 0], @buff.screen_caret
 
     @buff.rect_left_fast!
     assert_equal [0, 5, 40, 20], @buff.rect
-    assert_equal [5, 5], @buff.caret
-    assert_equal [7, 0], @buff.screen_caret
+    assert_equal [6, 5], @buff.caret
+    assert_equal [8, 0], @buff.screen_caret
 
     @buff.rect_up_fast!
     assert_equal [0, 0, 40, 20], @buff.rect
-    assert_equal [5, 5], @buff.caret
-    assert_equal [7, 5], @buff.screen_caret
+    assert_equal [6, 5], @buff.caret
+    assert_equal [8, 5], @buff.screen_caret
 
     # cannot pan beyond the limit
     @buff.rect_up_fast!
     assert_equal [0, 0, 40, 20], @buff.rect
-    assert_equal [5, 5], @buff.caret
-    assert_equal [7, 5], @buff.screen_caret
+    assert_equal [6, 5], @buff.caret
+    assert_equal [8, 5], @buff.screen_caret
 
     @buff.rect_down_fast!
     @buff.rect_down_fast!
     @buff.rect_right_fast!
     @buff.rect_right_fast!
     assert_equal [5, 5, 40, 20], @buff.rect
-    assert_equal [5, 5], @buff.caret
-    assert_equal [2, 0], @buff.screen_caret
+    assert_equal [6, 5], @buff.caret
+    assert_equal [3, 0], @buff.screen_caret
 
     # reveal a bit of the last line
     @buff.rect_left!(3)

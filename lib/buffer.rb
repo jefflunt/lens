@@ -146,7 +146,7 @@ class Buffer
   end
 
   def caret_right!(n=1)
-    @caret[0] = [caret[0] + n, @lines[caret[1]].length - 1].min
+    @caret[0] = [caret[0] + n, @lines[caret[1]].length].min
     adjust_rect!
   end
 
