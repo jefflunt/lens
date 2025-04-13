@@ -4,11 +4,9 @@ require_relative './buffer'
 
 class TestBuffer < Minitest::Test
   def setup
-    @content = "line 1\nline 2\nline 3\nline 4\nline 5\nline 6"
     @formatter = Rouge::Formatters::Terminal256.new
     @lexer = Rouge::Lexers::Ruby.new
-    @buff = Buffer.new(@formatter, @lexer)
-    @content.lines.each{|l| @buff << l }
+    @buff = Buffer.new(@formatter, @lexer, 'lib/buffer_test_content.txt')
     @buff.rect = [0, 0, 40, 20]
   end
 

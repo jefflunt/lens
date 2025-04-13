@@ -39,13 +39,10 @@ buff = Nobject::Local.new(
   BUFF_SERVER_PORT,
   Buffer.new(
     Rouge::Formatters::Terminal256.new,
-    Rouge::Lexers::Ruby.new
+    Rouge::Lexers::Ruby.new,
+    ARGV.shift
   )
 )
-
-IO
-  .readlines(ARGV.shift)
-  .each{|l| buff << l.chomp }
 
 console = IO.console
 c_rows, c_cols = console.winsize

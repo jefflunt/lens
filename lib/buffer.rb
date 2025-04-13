@@ -16,7 +16,9 @@ class Buffer
   #
   # formatter - a Rouge formatter
   # lexer - a Rouge lexer
-  def initialize(formatter, lexer)
+  def initialize(formatter, lexer, filename='')
+    @pathname = filename ? Pathname.new(filename) : nil
+
     @formatter = formatter
     @lexer = lexer
     @rect = [0, 0, 0, 0]    # the default slice is at the beginning of the buffer, and has a zero size
@@ -35,11 +37,34 @@ class Buffer
     @marks = {}
     @selections = {}
 
+    @lines = IO.readlines(filename).map(&:chomp) if @pathname
+    @max_char_width = @lines.map(&:length).max
+    @bytes = @lines.map(&:bytesize).sum
+    @chars = @lines.map(&:length).sum
+
     modified!
+  end
+
+  # line: the line to add to the end of the buffer
+  def <<(line)
+    line.chomp!
+    @lines << line
+    @bytes += line.bytesize
+    @chars += line.length
+    @max_char_width = line.chars.length if line.chars.length > @max_char_width
+
+    modified!
+    nil
   end
 
   def method_missing(method, *args, **kwargs, &block)
     print "\a"
+  end
+
+  def save
+    Thread.new do
+      File.open(pathname, 'w') {|f| f.write(@lines.join("\n")) }
+    end
   end
 
   def line_at(i)
@@ -335,18 +360,6 @@ class Buffer
   def unselect(sym)
     @selections.delete(sym)
 
-    nil
-  end
-
-  # line: the line to add to the end of the buffer
-  def <<(line)
-    line.chomp!
-    @lines << line
-    @bytes += line.bytesize
-    @chars += line.length
-    @max_char_width = line.chars.length if line.chars.length > @max_char_width
-
-    modified!
     nil
   end
 
