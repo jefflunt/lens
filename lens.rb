@@ -1,14 +1,3 @@
-unless ARGV.length == 1 && File.exist?(ARGV.first)
-  puts <<~USAGE
-    ERR: You must specify a filename
-
-    Ex:
-      ruby lens.rb <filename>
-  USAGE
-
-  exit 1
-end
-
 # these requires statements are placed after the USAGE cheack above so that the
 # error situation can be faster than the happy path
 require 'pry'
@@ -28,19 +17,20 @@ require_relative './lib/buffer'
 config = Config.new(YAML.load(IO.read('config.yml')))
 
 # start buffer server
-BUFF_SERVER_PORT = 6781
+BUFF_SERVER_PORT = rand(63535) + 1000
 buff_server = Nobject::Server.new(BUFF_SERVER_PORT)
 log = TinyLog.new(filename: '/tmp/lens.log', buffering: false, background_thread: false)
 
 Thread.new { buff_server.start! }
 
+filename = ARGV.shift
 buff = Nobject::Local.new(
   'localhost',
   BUFF_SERVER_PORT,
   Buffer.new(
     Rouge::Formatters::Terminal256.new,
-    Rouge::Lexers::Ruby.new,
-    ARGV.shift
+    Rouge::Lexer.guess_by_filename(filename),
+    filename
   )
 )
 

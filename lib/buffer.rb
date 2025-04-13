@@ -27,7 +27,7 @@ class Buffer
     # size tracking
     @chars = 0        # the number of characters in the buffer (not the same as the number of bytes)
     @bytes = 0        # the number of bytes in the buffer (not the same as the number of characters)
-    @lines = []
+    @lines = ['']
     @line_no_width = 1
     @rendered_lines = [] # fully formatted, syntax highlighted, and transformed
     @max_char_width = 0
