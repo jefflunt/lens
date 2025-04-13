@@ -28,13 +28,14 @@ class Buffer
     @lines = []
     @line_no_width = 1
     @rendered_lines = [] # fully formatted, syntax highlighted, and transformed
-    @edited_since_last_render = true
     @max_char_width = 0
     @all_buff = @lines.join("\n")
 
     @history = []
     @marks = {}
     @selections = {}
+
+    modified!
   end
 
   def method_missing(method, *args, **kwargs, &block)
@@ -47,6 +48,14 @@ class Buffer
 
   def char_at(x, y)
     (l = line_at(y)) && l[x]
+  end
+
+  def modified!
+    @modified = true
+  end
+
+  def unmodified!
+    @modified = false
   end
 
   # move the buffer's visible coordinates, and possibly the caret as well, if
@@ -183,7 +192,7 @@ class Buffer
     return [] if h == 0 || w == 0
 
     @line_no_width = @lines.length.to_s.length
-    if @edited_since_last_render
+    if @modified
       @rendered_lines = @formatter
         .format(
           @lexer.lex(
@@ -193,7 +202,7 @@ class Buffer
         .lines
         .map(&:chomp)
 
-      @edited_since_last_render = false
+      unmodified!
     else
       @rendered_lines[r..(r + visible_lines - 1)]
     end
@@ -337,7 +346,7 @@ class Buffer
     @chars += line.length
     @max_char_width = line.chars.length if line.chars.length > @max_char_width
 
-    @edited_since_last_render = true
+    modified!
     nil
   end
 
@@ -346,10 +355,22 @@ class Buffer
     @lines[caret[1]].insert(caret[0], char)
     @bytes += char.bytesize
     @chars += char.length
-    @caret[0] += 1
-    @edited_since_last_render = true
+    @caret[0] += char.length
+    modified!
 
     nil
+  end
+
+  def newline!
+    active_line = line_at(caret[1])
+    upto, after = [active_line[...caret[0]], active_line[caret[0]..]]
+
+    @lines[caret[1]] = upto
+    caret[0] = 0
+    caret[1] += 1
+    @lines.insert(caret[1], after)
+    adjust_rect!
+    modified!
   end
 
   def backspace!
@@ -370,7 +391,7 @@ class Buffer
       @caret[0] -= 1
     end
 
-    @edited_since_last_render = true
+    modified!
 
     nil
   end

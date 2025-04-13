@@ -84,6 +84,12 @@ loop do
   case mode
   when 'insert'
     case cmd_char.ord
+    when 9    # tab
+      (buff.caret[0] % 2 == 0) ?
+        buff.insert!('  ') :
+        buff.insert!(' ')
+    when 13   # enter
+      buff.newline!
     when 127  # backspace
       buff.backspace!
     else
