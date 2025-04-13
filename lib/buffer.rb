@@ -108,16 +108,17 @@ class Buffer
 
     new_rx = if scx > (w - 1)
                rx + 1
-             elsif scx == line_no_width
-               rx - 1
+             elsif scx <= line_no_width
+               rx - (line_no_width - scx) - 1
              else
                rx
              end
 
     new_ry = if scy > (h - 1)
-               ry + 1
+               #ry + 1
+               ry + (scy - (h - 1))
              elsif scy < 0
-               ry - 1
+               ry + scy
              else
                ry
              end
