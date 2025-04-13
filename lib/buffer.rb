@@ -17,7 +17,7 @@ class Buffer
   # formatter - a Rouge formatter
   # lexer - a Rouge lexer
   def initialize(formatter, lexer, filename='')
-    @pathname = !filename.nil? && !filename.empty? ? Pathname.new(filename) : nil
+    @pathname = !filename.nil? && !filename.empty? ? Pathname.new(filename).realpath : nil
 
     @formatter = formatter
     @lexer = lexer
@@ -61,6 +61,13 @@ class Buffer
 
   def line_at(i)
     @lines[i]
+  end
+
+  def delete_current_line
+    @lines.delete_at(caret[1])
+    @lines = [""] if @lines.length == 0
+    @caret[1] -= 1 if @lines.length == caret[1]
+    modified!
   end
 
   def char_at(x, y)
@@ -401,7 +408,6 @@ class Buffer
     nil
   end
 
-#
 #  # deletes and returns the last line of this buffer
 #  def pop
 #    l = @lines.pop

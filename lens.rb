@@ -14,7 +14,7 @@ require_relative './cmds'
 require_relative './lib/config'
 require_relative './lib/buffer'
 
-config = Config.new(YAML.load(IO.read('config.yml')))
+config = Config.new(YAML.load(IO.read("#{ENV['LENSPATH']}/config.yml")))
 
 # start buffer server
 BUFF_SERVER_PORT = rand(63535) + 1000
@@ -113,4 +113,4 @@ loop do
 end
 
 # TODO: shutdown the buffer proxy
-puts 'bye'
+puts "\nbye\e[K"
