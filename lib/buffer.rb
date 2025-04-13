@@ -106,15 +106,15 @@ class Buffer
     scx, scy = screen_caret
     rx, ry = @rect[0], @rect[1]
 
-    new_rx = if scx > (c + w - 1)
+    new_rx = if scx > (w - 1)
                rx + 1
-             elsif scx < 0
+             elsif scx == line_no_width
                rx - 1
              else
                rx
              end
 
-    new_ry = if scy > (r + h - 1)
+    new_ry = if scy > (h - 1)
                ry + 1
              elsif scy < 0
                ry - 1
@@ -122,8 +122,8 @@ class Buffer
                ry
              end
 
-    @rect[0] = rx
-    @rect[1] = ry
+    @rect[0] = new_rx #rx
+    @rect[1] = new_ry #ry
   end
 
   def caret_down!(n=1)
