@@ -9,7 +9,7 @@ class TestConfig < Minitest::Test
 
   def test_mode_cmds
     # direct, subcmd, and wildcards from 'normal' mode
-    assert_equal 'autosave_enable', @config.cmd('normal', nil, 'a')
+    assert_equal 'caret_down!', @config.cmd('normal', nil, 'j')
     assert_equal :c, @config.cmd('normal', nil, 'c')
     assert_equal 'clipboard_open', @config.cmd('normal', :c, 'o')
 
@@ -46,6 +46,6 @@ class TestConfig < Minitest::Test
 
   def test__mode
     assert @config._mode('normal').is_a?(Hash)
-    assert_equal 'autosave_enable', @config._mode('normal')['a']
+    assert_equal 'caret_down!', @config._mode('normal')['j']
   end
 end

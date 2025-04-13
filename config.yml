@@ -23,8 +23,6 @@ modes:                        # the list of modes
     "/": ms_search                # mode switch to search
     "?": help                     # open help - show keyboard shortcuts by default
 
-    a: autosave_enable            # enable auto-save (this is on by default)
-    A: autosave_disable           # disable auto-save
     C: clear_to_eol               # clear from the cursor to the end of the line
     co: clipboard_open            # show the clipboard preview window for the current buffer
     cw: change_word               # clear from the cursor to the end of the word
@@ -45,10 +43,10 @@ modes:                        # the list of modes
     "'*": mark_goto               # goto the lettered mark
     P: paste                      # paste whatever is in the most recent clipboard
     p*: paste_from                # paste from a particular clipboard
-    r: redo                       # redo the last edit action
+    ".": redo                     # redo the last edit action
+    ",": undo                     # undo the previous edit
     RC: reload_config             # reload and re-parse the config file
     u: undo                       # undo the last edit action
-    .: again                      # do the last edit action again
     t: open_transform_editor      # open the transform editor (the data pipelines that get applied to visible lines)
     T: tail_file                  # scroll to the bottom of the file and stream its output into the buffer
     v: version_start              # undo/redo version tree? not sure what this is
