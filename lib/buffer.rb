@@ -45,18 +45,6 @@ class Buffer
     modified!
   end
 
-  # line: the line to add to the end of the buffer
-  def <<(line)
-    line.chomp!
-    @lines << line
-    @bytes += line.bytesize
-    @chars += line.length
-    @max_char_width = line.chars.length if line.chars.length > @max_char_width
-
-    modified!
-    nil
-  end
-
   def method_missing(method, *args, **kwargs, &block)
     print "\a"
   end
