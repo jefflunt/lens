@@ -356,9 +356,9 @@ class Buffer
     return if caret[0] == 0
 
     index_to_delete = caret[0] - 1
-    char_removed = @lines[caret[1]][caret[0]]
+    char_removed = char_at(caret[0] - 1, caret[1])
 
-    @history << [:backsp, [caret[0], caret[1]]]
+    @history << [:backsp, [caret[0] - 1, caret[1]], char_removed]
     @lines[caret[1]] = @lines[caret[1]][...index_to_delete] + @lines[caret[1]][(index_to_delete + 1)..]
     @bytes -= char_removed.bytesize
     @chars -= char_removed.length

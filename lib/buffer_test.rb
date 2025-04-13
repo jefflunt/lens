@@ -446,7 +446,7 @@ class TestBuffer < Minitest::Test
     assert_equal [3, 0], @buff.screen_caret
 
     @buff.backspace!
-    assert_equal [:backsp, [1, 0]], @buff.history.last
+    assert_equal [:backsp, [0, 0], 'a'], @buff.history.last
     assert_equal 'line 1', @buff.line_at(@buff.caret[1])
     assert_equal 36, @buff.bytes
     assert_equal 36, @buff.chars
@@ -455,7 +455,7 @@ class TestBuffer < Minitest::Test
 
     # can't backspace when you're at the beginning of the line already
     @buff.backspace!
-    assert_equal [:backsp, [1, 0]], @buff.history.last
+    assert_equal [:backsp, [0, 0], 'a'], @buff.history.last
     assert_equal 'line 1', @buff.line_at(@buff.caret[1])
     assert_equal 36, @buff.bytes
     assert_equal 36, @buff.chars

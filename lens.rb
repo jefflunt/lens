@@ -86,10 +86,8 @@ loop do
     case cmd_char.ord
     when 127  # backspace
       buff.backspace!
-      log.backspace(buff.line_at(buff.caret[1]))
     else
       buff.insert!(cmd_char)
-      log.insert(buff.line_at(buff.caret[1]))
     end
   else
     # handle cmds
