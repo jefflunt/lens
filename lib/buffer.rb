@@ -389,6 +389,17 @@ class Buffer
     modified!
   end
 
+  def insert_newline_above
+    @lines.insert(caret[1], '')
+    modified!
+  end
+
+  def insert_newline_below
+    @lines.insert(caret[1] + 1, '')
+    @caret[1] += 1
+    modified!
+  end
+
   def backspace!
     return if caret == [0, 0]
 

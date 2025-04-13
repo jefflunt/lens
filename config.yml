@@ -29,6 +29,7 @@ modes:                        # the list of modes
     d: delete_current_line        # delete the entire current line, and move everything else up
     F: file_system                # open a buffer with a file system navigator
     h: caret_left!                # move the cursor to the left
+    i: insert_newline_above       # insert a new, empty line above the caret's current line
     j: caret_down!                # move the cursor down
     k: caret_up!                  # move the cursor up
     l: caret_right!               # move the cursor right
@@ -46,7 +47,7 @@ modes:                        # the list of modes
     ".": redo                     # redo the last edit action
     ",": undo                     # undo the previous edit
     RC: reload_config             # reload and re-parse the config file
-    u: undo                       # undo the last edit action
+    u: insert_newline_below       # insert a new, empty line below the caret's current line
     t: open_transform_editor      # open the transform editor (the data pipelines that get applied to visible lines)
     T: tail_file                  # scroll to the bottom of the file and stream its output into the buffer
     v: version_start              # undo/redo version tree? not sure what this is
