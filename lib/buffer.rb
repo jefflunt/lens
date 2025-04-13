@@ -1,3 +1,5 @@
+require 'fileutils'
+
 # a text buffer with marks, selections, and rudimentary editing
 class Buffer
   attr_reader :chars,
@@ -17,7 +19,7 @@ class Buffer
   # formatter - a Rouge formatter
   # lexer - a Rouge lexer
   def initialize(formatter, lexer, filename='')
-    @pathname = !filename.nil? && !filename.empty? ? Pathname.new(filename).realpath : nil
+    @pathname = !filename.nil? && !filename.empty? ? File.expand_path(filename) : nil
 
     @formatter = formatter
     @lexer = lexer
@@ -37,7 +39,9 @@ class Buffer
     @marks = {}
     @selections = {}
 
+    FileUtils.touch(@pathname)
     @lines = IO.readlines(filename).map(&:chomp) if @pathname
+
     @max_char_width = @lines.map(&:length).max
     @bytes = @lines.map(&:bytesize).sum
     @chars = @lines.map(&:length).sum
