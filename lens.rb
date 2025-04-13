@@ -76,7 +76,11 @@ loop do
   cmd = config.cmd(mode, nil, cmd_char)
 
   break if cmd == 'exit'
-  ((mode = default_mode) && next) if cmd_char&.ord == 27  # esc key
+  if cmd_char&.ord == 27  # esc key
+    mode = default_mode
+    buff.save
+    next
+  end
 
   case mode
   when 'insert'

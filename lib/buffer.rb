@@ -17,7 +17,7 @@ class Buffer
   # formatter - a Rouge formatter
   # lexer - a Rouge lexer
   def initialize(formatter, lexer, filename='')
-    @pathname = filename ? Pathname.new(filename) : nil
+    @pathname = !filename.nil? && !filename.empty? ? Pathname.new(filename) : nil
 
     @formatter = formatter
     @lexer = lexer
@@ -50,9 +50,13 @@ class Buffer
   end
 
   def save
+    return unless @pathname
+
     Thread.new do
-      File.open(pathname, 'w') {|f| f.write(@lines.join("\n")) }
+      File.open(@pathname, 'w') {|f| f.write(@lines.join("\n")) }
     end
+
+    nil
   end
 
   def line_at(i)
