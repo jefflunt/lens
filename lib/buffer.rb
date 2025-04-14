@@ -352,6 +352,16 @@ class Buffer
     caret[0] = @lines[caret[1]].length
   end
 
+  def jump_to_bof
+    @caret = [0, 0]
+    adjust_rect!
+  end
+
+  def jump_to_eof
+    @caret = [line_at(@lines.length - 1).length, @lines.length - 1]
+    adjust_rect!
+  end
+
   # set a mark, as in the Vim sense
   #
   # sym: the name of the mark

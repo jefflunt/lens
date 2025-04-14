@@ -24,6 +24,9 @@ modes:                        # the list of modes
     "]": jump_end_of_line         # jump to the last non-whitespace character in the line
     "}": jump_right               # jump to the right of the buffer
 
+    "+": jump_to_eof              # jump to the end of the file
+    "_": jump_to_bof              # jump to the beginning of the file
+
     "#": toggle_line_numbers      # toggle line numbers
     "/": ms_search                # mode switch to search
     "?": help                     # open help - show keyboard shortcuts by default
