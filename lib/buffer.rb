@@ -322,6 +322,36 @@ class Buffer
     rect_right!(5)
   end
 
+  def jump_left
+    caret[0] = 0
+  end
+
+  def jump_beg_of_line
+    match_i = @lines[caret[1]].match(/\S/)&.begin(0)
+    if match_i
+      caret[0] = match_i
+    else
+      print "\a"
+    end
+
+    nil
+  end
+
+  def jump_end_of_line
+    match_i = @lines[caret[1]].match(/(\S)\s*$/)&.begin(1)
+    if match_i
+      caret[0] = match_i
+    else
+      print "\a"
+    end
+
+    nil
+  end
+
+  def jump_right
+    caret[0] = @lines[caret[1]].length
+  end
+
   # set a mark, as in the Vim sense
   #
   # sym: the name of the mark

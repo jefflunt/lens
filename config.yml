@@ -19,6 +19,11 @@ modes:                        # the list of modes
     "9": ms_buffer_adj            # mode switch to buffer adjustment
     "0": ms_buffer_nav            # mode switch to buffer navigation
 
+    "{": jump_left                # jump to the left of the buffer
+    "[": jump_beg_of_line         # jump to the first non-whitespace character in the line
+    "]": jump_end_of_line         # jump to the last non-whitespace character in the line
+    "}": jump_right               # jump to the right of the buffer
+
     "#": toggle_line_numbers      # toggle line numbers
     "/": ms_search                # mode switch to search
     "?": help                     # open help - show keyboard shortcuts by default
