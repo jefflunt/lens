@@ -57,7 +57,7 @@ class Buffer
     return unless @pathname
 
     Thread.new do
-      File.open(@pathname, 'w') {|f| f.write(@lines.join("\n")) }
+      File.open(@pathname, 'w') {|f| f.write(@lines.join("\n") + "\n") }
     end
 
     nil
