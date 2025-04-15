@@ -439,7 +439,7 @@ class Buffer
 
   def insert_newline_below
     @lines.insert(caret[1] + 1, '')
-    @caret[1] += 1
+    @caret = [0, caret[1] + 1]
     modified!
   end
 
