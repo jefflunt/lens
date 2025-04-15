@@ -40,7 +40,10 @@ class Buffer
     @selections = {}
 
     FileUtils.touch(@pathname)
-    @lines = IO.readlines(filename).map(&:chomp) if @pathname
+    if @pathname
+      @lines = IO.readlines(filename).map(&:chomp)
+      @lines = [''] if @lines == []
+    end
 
     @max_char_width = @lines.map(&:length).max
     @bytes = @lines.map(&:bytesize).sum
