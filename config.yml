@@ -1,13 +1,3 @@
-# this file contains the default settings while you can edit this directly if
-# you like, it's recommended that you instead create your own config file under
-# ~/.lens/config.yml
-#
-# the order in which config files are loaded is:
-#   1. ./config.yml
-#   2. ~/.lens/config.yml
-#
-# any settings are loaded from file #2 above will override what's in the
-# default config file
 subcmd_timeout: 1             # how long between when a subcommand is triggered and when it times out if a follow up keystroke isn't pressed
 default_mode: normal
 modes:                        # the list of modes
@@ -30,6 +20,7 @@ modes:                        # the list of modes
     "#": toggle_line_numbers      # toggle line numbers
     "/": ms_search                # mode switch to search
     "?": help                     # open help - show keyboard shortcuts by default
+    "`": exit                     # exit/quit
 
     C: clear_to_eol               # clear from the cursor to the end of the line
     co: clipboard_open            # show the clipboard preview window for the current buffer
@@ -59,7 +50,7 @@ modes:                        # the list of modes
     t: open_transform_editor      # open the transform editor (the data pipelines that get applied to visible lines)
     T: tail_file                  # scroll to the bottom of the file and stream its output into the buffer
     v: version_start              # undo/redo version tree? not sure what this is
-    x: exit                       # exit/quit lens
+    x: delete_at_caret            # delete the character at the caret position
   pan:                          # buffer panning mode
     h: rect_left!                 # pan left
     j: rect_down!                 # pan down

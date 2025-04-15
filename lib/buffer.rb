@@ -70,6 +70,14 @@ class Buffer
     @lines[i]
   end
 
+  def active_line
+    line_at(caret[1])
+  end
+
+  def split_line_at(line, i)
+    [active_line[..caret[0]] || "", active_line[(caret[0] + 1)..] || ""]
+  end
+
   def delete_current_line
     @lines.delete_at(caret[1])
     @lines = [""] if @lines.length == 0
@@ -355,6 +363,11 @@ class Buffer
     caret[0] = @lines[caret[1]].length
   end
 
+  def jump_to_line(n)
+    @caret[1] = [n, @lines.length - 1].min
+    @caret[0] = [caret[0], @lines[caret[1]]].min
+  end
+
   def jump_to_bof
     @caret = [0, 0]
     adjust_rect!
@@ -363,6 +376,14 @@ class Buffer
   def jump_to_eof
     @caret = [line_at(@lines.length - 1).length, @lines.length - 1]
     adjust_rect!
+  end
+
+  def delete_at_caret
+    return if @lines[caret[1]].length == caret[0]
+
+    upto, after = split_line_at(active_line, caret[0])
+    @lines[caret[1]] = upto[..-2] + after
+    modified!
   end
 
   # set a mark, as in the Vim sense
