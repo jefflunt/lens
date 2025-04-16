@@ -79,7 +79,7 @@ class Buffer
 
   def find_next
     # find within the existing line, and exit early if found
-    rest_of_line = @lines[caret[1]][(caret[0] + 1)..]
+    rest_of_line = @lines[caret[1]][(caret[0] + 1)..] || ''
     match_index = rest_of_line.index(@search_str)
     if match_index
       caret[0] = caret[0] + match_index + 1
@@ -110,8 +110,8 @@ class Buffer
 
   def find_prev
     # find within the existing line, and exit early if found
-    start_of_line = @lines[caret[1]][..caret[0]]
-    match_index = start_of_line.index(@search_str)
+    start_of_line = @lines[caret[1]][..(caret[0] - 1)] || ''
+    match_index = start_of_line.rindex(@search_str)
     if match_index
       caret[0] = match_index
       return
@@ -121,7 +121,7 @@ class Buffer
     curr_line_num = (caret[1] - 1) % @lines.length
     loop do
       tmp_line = @lines[curr_line_num]
-      match_index = tmp_line.index(@search_str)
+      match_index = tmp_line.rindex(@search_str)
       if match_index
         caret[0] = match_index
         caret[1] = curr_line_num
