@@ -166,7 +166,6 @@ class Buffer
       File.open(@pathname, 'w') {|f| f.write(@lines.join("\n") + "\n") }
     end
 
-    binding.pry
     nil
   end
 
