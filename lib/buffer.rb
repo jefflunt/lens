@@ -1,4 +1,4 @@
-require 'fileutils'
+equire 'fileutils'
 require 'pry'
 require 'pry-nav'
 
@@ -155,13 +155,13 @@ class Buffer
   end
 
   def save!
-    binding.pry
     return unless @pathname
 
     Thread.new do
       File.open(@pathname, 'w') {|f| f.write(@lines.join("\n") + "\n") }
     end
 
+    binding.pry
     nil
   end
 
