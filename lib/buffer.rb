@@ -143,6 +143,11 @@ class Buffer
     adjust_rect!
   end
 
+  def clear_to_eol
+    @lines[caret[1]] = @lines[caret[1]][...caret[0]]
+    modified!
+  end
+
   def method_missing(method, *args, **kwargs, &block)
     print "\a"
   end
