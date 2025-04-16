@@ -14,6 +14,7 @@ class Buffer
               :history,
               :marks,
               :search_str,
+              :search_str_tmp,
               :selections
 
   # gives you a default, empty, zero slice
@@ -39,7 +40,7 @@ class Buffer
     @all_buff = @lines.join("\n")
 
     @search_str = ''
-    @search_str_tmp = ''
+    @search_str_tmp = nil
 
     @history = []
     @marks = {}
@@ -64,18 +65,20 @@ class Buffer
       return false
     when 13   # ENTER
       @search_str = @search_str_tmp
-      @search_str_tmp = ''
+      @search_str_tmp = nil
       find_next
 
       return false
+    when 127  # backspace
+      @search_str_tmp = (@search_str_tmp || '')[..-2]
     else
-      @search_str_tmp += cmd_char
+      @search_str_tmp = (@search_str_tmp || '' ) + cmd_char
       return true
     end
   end
 
   def find_next
-    # find within the existing line
+    # find within the existing line, and exit early if found
     rest_of_line = @lines[caret[1]][(caret[0] + 1)..]
     match_index = rest_of_line.index(@search_str)
     if match_index
@@ -102,6 +105,8 @@ class Buffer
         break
       end
     end
+
+    adjust_rect!
   end
 
   def method_missing(method, *args, **kwargs, &block)
