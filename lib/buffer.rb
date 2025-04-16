@@ -159,7 +159,6 @@ class Buffer
     return unless @pathname
 
     Thread.new do
-      binding.pry
       File.open(@pathname, 'w') {|f| f.write(@lines.join("\n") + "\n") }
     end
 
