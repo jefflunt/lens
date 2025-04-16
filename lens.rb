@@ -51,7 +51,7 @@ loop do
   print caret.hide
   print caret.move_to(0, 0)
   puts buff.rect_s
-  print "#{("#{mode.upcase} #{buff.max_x} #{cmd_char&.ord} #{cmd_str}").ljust(30).black.on_white}\e[0K #{buff.bytes}"
+  print "#{("#{mode.upcase} #{buff.max_x} #{cmd_char&.ord} #{cmd_str}").ljust(30).black.on_white}\e[0K #{buff.bytes} #{buff.search_str if mode == 'seach'}"
 
   cmd_char = nil
   cmd = nil
@@ -86,6 +86,9 @@ loop do
     else
       buff.insert!(cmd_char)
     end
+  when 'search'
+    stay_in_search = buff.search(cmd_char, cmd_char.ord)
+    mode = default_mode unless stay_in_search
   else
     # handle cmds
     case cmd

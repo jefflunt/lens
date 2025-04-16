@@ -13,6 +13,7 @@ class Buffer
               :caret,
               :history,
               :marks,
+              :search_str,
               :selections
 
   # gives you a default, empty, zero slice
@@ -37,6 +38,9 @@ class Buffer
     @max_char_width = 0
     @all_buff = @lines.join("\n")
 
+    @search_str = ''
+    @search_str_tmp = ''
+
     @history = []
     @marks = {}
     @selections = {}
@@ -52,6 +56,52 @@ class Buffer
     @chars = @lines.map(&:length).sum
 
     modified!
+  end
+
+  def search(cmd_char, cmd_char_ord)
+    case cmd_char_ord
+    when 27   # esc
+      return false
+    when 13   # ENTER
+      @search_str = @search_str_tmp
+      @search_str_tmp = ''
+      find_next
+
+      return false
+    else
+      @search_str_tmp += cmd_char
+      return true
+    end
+  end
+
+  def find_next
+    # find within the existing line
+    rest_of_line = @lines[caret[1]][(caret[0] + 1)..]
+    match_index = rest_of_line.index(@search_str)
+    if match_index
+      caret[0] = caret[0] + match_index + 1
+      return
+    end
+
+    # find in later lines
+    curr_line_num = (caret[1] + 1) % @lines.length
+    loop do
+      tmp_line = @lines[curr_line_num]
+      match_index = tmp_line.index(@search_str)
+      if match_index
+        caret[0] = match_index
+        caret[1] = curr_line_num
+        break
+      end
+
+      curr_line_num += 1
+      curr_line_num = 0 if curr_line_num == @lines.length
+
+      if curr_line_num == caret[1]
+        print "\a"
+        break
+      end
+    end
   end
 
   def method_missing(method, *args, **kwargs, &block)

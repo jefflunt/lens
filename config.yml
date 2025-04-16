@@ -29,6 +29,7 @@ modes:                        # the list of modes
     co: clipboard_open            # show the clipboard preview window for the current buffer
     cw: change_word               # clear from the cursor to the end of the word
     d: delete_current_line        # delete the entire current line, and move everything else up
+    f: find_next                  # find the next instance of the search string
     F: file_system                # open a buffer with a file system navigator
     h: caret_left!                # move the cursor to the left
     j: caret_down!                # move the cursor down
