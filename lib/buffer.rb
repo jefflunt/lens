@@ -152,7 +152,7 @@ class Buffer
     print "\a"
   end
 
-  def save
+  def save!
     return unless @pathname
 
     Thread.new do
@@ -493,6 +493,12 @@ class Buffer
   def jump_to_eof
     @caret = [line_at(@lines.length - 1).length, @lines.length - 1]
     adjust_rect!
+  end
+
+  def next_word
+  end
+
+  def prev_word
   end
 
   def delete_at_caret

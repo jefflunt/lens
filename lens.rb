@@ -65,10 +65,14 @@ loop do
   cmd_char = $stdin.getch
   cmd = config.cmd(mode, nil, cmd_char)
 
-  break if cmd == 'exit'
+  if cmd == 'exit'
+    buff.save!
+    break
+  end
+
   if cmd_char&.ord == 27  # esc key
     mode = default_mode
-    buff.save
+    buff.save!
     next
   end
 

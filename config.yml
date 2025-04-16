@@ -27,7 +27,7 @@ modes:                        # the list of modes
 
     C: clear_to_eol               # clear from the cursor to the end of the line
     co: clipboard_open            # show the clipboard preview window for the current buffer
-    cw: change_word               # clear from the cursor to the end of the word
+    cw: clear_word                # clear from the cursor to the end of the word
     d: delete_current_line        # delete the entire current line, and move everything else up
     f: find_next                  # find the next instance of the search string
     F: find_prev                  # find the previous instance of the search string
@@ -55,6 +55,8 @@ modes:                        # the list of modes
     t: open_transform_editor      # open the transform editor (the data pipelines that get applied to visible lines)
     T: tail_file                  # scroll to the bottom of the file and stream its output into the buffer
     v: version_start              # undo/redo version tree? not sure what this is
+    w: next_word                  # jump to the next start of a word, possibly across lines
+    W: prev_word                  # jump to the end of the previous word, possibly across lines
     x: delete_at_caret            # delete the character at the caret position
   pan:                          # buffer panning mode
     h: rect_left!                 # pan left
