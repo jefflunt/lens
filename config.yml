@@ -30,7 +30,7 @@ modes:                        # the list of modes
     cw: change_word               # clear from the cursor to the end of the word
     d: delete_current_line        # delete the entire current line, and move everything else up
     f: find_next                  # find the next instance of the search string
-    F: file_system                # open a buffer with a file system navigator
+    F: find_prev                  # find the previous instance of the search string
     h: caret_left!                # move the cursor to the left
     j: caret_down!                # move the cursor down
     k: caret_up!                  # move the cursor up
@@ -51,6 +51,7 @@ modes:                        # the list of modes
     ".": redo                     # redo the last edit action
     ",": undo                     # undo the previous edit
     RC: reload_config             # reload and re-parse the config file
+    S: file_system                # open a buffer with the file system navigator
     t: open_transform_editor      # open the transform editor (the data pipelines that get applied to visible lines)
     T: tail_file                  # scroll to the bottom of the file and stream its output into the buffer
     v: version_start              # undo/redo version tree? not sure what this is

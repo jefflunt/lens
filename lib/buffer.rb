@@ -97,8 +97,38 @@ class Buffer
         break
       end
 
-      curr_line_num += 1
-      curr_line_num = 0 if curr_line_num == @lines.length
+      curr_line_num = (curr_line_num + 1) % @lines.length
+
+      if curr_line_num == caret[1]
+        print "\a"
+        break
+      end
+    end
+
+    adjust_rect!
+  end
+
+  def find_prev
+    # find within the existing line, and exit early if found
+    start_of_line = @lines[caret[1]][..caret[0]]
+    match_index = start_of_line.index(@search_str)
+    if match_index
+      caret[0] = match_index
+      return
+    end
+
+    # find in earlier lines
+    curr_line_num = (caret[1] - 1) % @lines.length
+    loop do
+      tmp_line = @lines[curr_line_num]
+      match_index = tmp_line.index(@search_str)
+      if match_index
+        caret[0] = match_index
+        caret[1] = curr_line_num
+        break
+      end
+
+      curr_line_num = (curr_line_num - 1) % @lines.length
 
       if curr_line_num == caret[1]
         print "\a"
