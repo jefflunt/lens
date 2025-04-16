@@ -8,6 +8,7 @@ class Buffer
               :length,
               :line_no_width,
               :max_char_width,
+              :max_x,
               :rect,
               :caret,
               :history,
@@ -25,6 +26,7 @@ class Buffer
     @lexer = lexer
     @rect = [0, 0, 0, 0]    # the default slice is at the beginning of the buffer, and has a zero size
     @caret = [c, r]
+    @max_x = 0
 
     # size tracking
     @chars = 0        # the number of characters in the buffer (not the same as the number of bytes)
@@ -176,7 +178,7 @@ class Buffer
 
   def caret_down!(n=1)
     @caret[1] = [caret[1] + n, @lines.length - 1].min
-    @caret[0] = [caret[0], @lines[caret[1]].length].min
+    @caret[0] = [@lines[caret[1]].length, @max_x].min
     adjust_rect!
   end
 
@@ -186,7 +188,7 @@ class Buffer
 
   def caret_up!(n=1)
     @caret[1] = [caret[1] - n, 0].max
-    @caret[0] = [caret[0], @lines[caret[1]].length].min
+    @caret[0] = [@lines[caret[1]].length, @max_x].min
     adjust_rect!
   end
 
@@ -196,6 +198,7 @@ class Buffer
 
   def caret_left!(n=1)
     @caret[0] = [caret[0] - n, 0].max
+    @max_x = @caret[0]
     adjust_rect!
   end
 
@@ -205,6 +208,7 @@ class Buffer
 
   def caret_right!(n=1)
     @caret[0] = [caret[0] + n, @lines[caret[1]].length].min
+    @max_x = caret[0]
     adjust_rect!
   end
 
