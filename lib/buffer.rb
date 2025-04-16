@@ -1,4 +1,6 @@
 require 'fileutils'
+require 'pry'
+require 'pry-nav'
 
 # a text buffer with marks, selections, and rudimentary editing
 class Buffer
@@ -156,6 +158,7 @@ class Buffer
     return unless @pathname
 
     Thread.new do
+      binding.pry
       File.open(@pathname, 'w') {|f| f.write(@lines.join("\n") + "\n") }
     end
 
