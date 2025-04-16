@@ -66,7 +66,7 @@ loop do
   cmd = config.cmd(mode, nil, cmd_char)
 
   if cmd == 'exit'
-    buff.save!
+    buff.save!(via_thread: true)
     break
   end
 

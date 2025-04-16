@@ -1,4 +1,4 @@
-equire 'fileutils'
+require 'fileutils'
 require 'pry'
 require 'pry-nav'
 
@@ -154,10 +154,15 @@ class Buffer
     print "\a"
   end
 
-  def save!
+
+  def save!(via_thread: false)
     return unless @pathname
 
-    Thread.new do
+    if via_thread
+      Thread.new do
+        File.open(@pathname, 'w') {|f| f.write(@lines.join("\n") + "\n") }
+      end
+    else
       File.open(@pathname, 'w') {|f| f.write(@lines.join("\n") + "\n") }
     end
 
