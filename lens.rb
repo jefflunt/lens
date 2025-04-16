@@ -51,7 +51,7 @@ loop do
   print caret.hide
   print caret.move_to(0, 0)
   puts buff.rect_s
-  print "#{("#{mode.upcase} #{buff.max_x} #{cmd_char&.ord} #{cmd_str}").ljust(30).black.on_white}\e[0K #{buff.bytes} /:#{buff.search_str_tmp || buff.search_str}"
+  print "#{("#{mode.upcase} #{buff.max_x} #{cmd_char&.ord} #{cmd_str}").ljust(30).black.on_white}\e[0K #{buff.bytes} /#{buff.search_str_tmp || buff.search_str}/"
 
   cmd_char = nil
   cmd = nil

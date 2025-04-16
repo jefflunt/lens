@@ -78,6 +78,8 @@ class Buffer
   end
 
   def find_next
+    return if @search_str.nil? || @search_str.empty?
+
     # find within the existing line, and exit early if found
     rest_of_line = @lines[caret[1]][(caret[0] + 1)..] || ''
     match_index = rest_of_line.index(@search_str)
@@ -109,6 +111,8 @@ class Buffer
   end
 
   def find_prev
+    return if @search_str.nil? || @search_str.empty?
+
     # find within the existing line, and exit early if found
     start_of_line = @lines[caret[1]][..(caret[0] - 1)] || ''
     match_index = start_of_line.rindex(@search_str)
