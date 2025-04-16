@@ -155,6 +155,7 @@ class Buffer
   end
 
   def save!
+    binding.pry
     return unless @pathname
 
     Thread.new do
