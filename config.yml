@@ -14,6 +14,9 @@ modes:                        # the list of modes
     "]": jump_end_of_line         # jump to the last non-whitespace character in the line
     "}": jump_right               # jump to the right of the buffer
 
+    "<": outdent                  # remove up to two spaces at the beginning of the line, if available
+    ">": indent                   # add two spaces at the beginning of the line
+
     "+": jump_to_eof              # jump to the end of the file
     "_": jump_to_bof              # jump to the beginning of the file
 

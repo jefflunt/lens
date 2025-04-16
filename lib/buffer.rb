@@ -68,6 +68,25 @@ class Buffer
     nil
   end
 
+  def indent
+    @lines[caret[1]] = "  #{@lines[caret[1]]}"
+    modified!
+  end
+
+  def outdent
+    return if @lines[caret[1]].length == 0
+
+    if (@lines[caret[1]] =~ /\s\s/) == 0
+      @lines[caret[1]] = @lines[caret[1]][2..]
+      modified!
+    elsif (@lines[caret[1]] =~ /\s/) == 0
+      @lines[caret[1]] = @lines[caret[1]][1..]
+      modified!
+    else
+      # nothing to do here
+    end
+  end
+
   def line_at(i)
     @lines[i]
   end

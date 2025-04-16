@@ -126,32 +126,42 @@ class TestBuffer < Minitest::Test
     # move just the caret around
     @buff.caret_up!
     assert_equal [0, 0, 40, 20], @buff.rect
-    assert_equal [2, 1], @buff.caret
-    assert_equal [4, 1], @buff.screen_caret
+    assert_equal [0, 1], @buff.caret
+    assert_equal [2, 1], @buff.screen_caret
 
     @buff.caret_up!
     assert_equal [0, 0, 40, 20], @buff.rect
-    assert_equal [2, 0], @buff.caret
-    assert_equal [4, 0], @buff.screen_caret
+    assert_equal [0, 0], @buff.caret
+    assert_equal [2, 0], @buff.screen_caret
 
     # when the caret is already as far as it can go in a given direction,
     # nothing changes
     @buff.caret_up!
     assert_equal [0, 0, 40, 20], @buff.rect
-    assert_equal [2, 0], @buff.caret
-    assert_equal [4, 0], @buff.screen_caret
+    assert_equal [0, 0], @buff.caret
+    assert_equal [2, 0], @buff.screen_caret
 
     @buff.caret_down!
     assert_equal [0, 0, 40, 20], @buff.rect
-    assert_equal [2, 1], @buff.caret
-    assert_equal [4, 1], @buff.screen_caret
+    assert_equal [0, 1], @buff.caret
+    assert_equal [2, 1], @buff.screen_caret
 
     @buff.caret_down!
     assert_equal [0, 0, 40, 20], @buff.rect
-    assert_equal [2, 2], @buff.caret
-    assert_equal [4, 2], @buff.screen_caret
+    assert_equal [0, 2], @buff.caret
+    assert_equal [2, 2], @buff.screen_caret
 
     @buff.caret_down!
+    assert_equal [0, 0, 40, 20], @buff.rect
+    assert_equal [0, 3], @buff.caret
+    assert_equal [2, 3], @buff.screen_caret
+
+    @buff.caret_right!
+    assert_equal [0, 0, 40, 20], @buff.rect
+    assert_equal [1, 3], @buff.caret
+    assert_equal [3, 3], @buff.screen_caret
+
+    @buff.caret_right!
     assert_equal [0, 0, 40, 20], @buff.rect
     assert_equal [2, 3], @buff.caret
     assert_equal [4, 3], @buff.screen_caret
@@ -161,28 +171,8 @@ class TestBuffer < Minitest::Test
     assert_equal [3, 3], @buff.caret
     assert_equal [5, 3], @buff.screen_caret
 
-    @buff.caret_right!
-    assert_equal [0, 0, 40, 20], @buff.rect
-    assert_equal [4, 3], @buff.caret
-    assert_equal [6, 3], @buff.screen_caret
-
-    @buff.caret_right!
-    assert_equal [0, 0, 40, 20], @buff.rect
-    assert_equal [5, 3], @buff.caret
-    assert_equal [7, 3], @buff.screen_caret
-
     # can't go any further to the right, so the coordinates don't change
     @buff.caret_right!
-    assert_equal [0, 0, 40, 20], @buff.rect
-    assert_equal [6, 3], @buff.caret
-    assert_equal [8, 3], @buff.screen_caret
-
-    @buff.caret_left!
-    assert_equal [0, 0, 40, 20], @buff.rect
-    assert_equal [5, 3], @buff.caret
-    assert_equal [7, 3], @buff.screen_caret
-
-    @buff.caret_left!
     assert_equal [0, 0, 40, 20], @buff.rect
     assert_equal [4, 3], @buff.caret
     assert_equal [6, 3], @buff.screen_caret
@@ -201,6 +191,16 @@ class TestBuffer < Minitest::Test
     assert_equal [0, 0, 40, 20], @buff.rect
     assert_equal [1, 3], @buff.caret
     assert_equal [3, 3], @buff.screen_caret
+
+    @buff.caret_left!
+    assert_equal [0, 0, 40, 20], @buff.rect
+    assert_equal [0, 3], @buff.caret
+    assert_equal [2, 3], @buff.screen_caret
+
+    @buff.caret_left!
+    assert_equal [0, 0, 40, 20], @buff.rect
+    assert_equal [0, 3], @buff.caret
+    assert_equal [2, 3], @buff.screen_caret
 
     @buff.caret_left!
     assert_equal [0, 0, 40, 20], @buff.rect
