@@ -503,9 +503,47 @@ class Buffer
   end
 
   def next_word
+    curr_line = caret[1]
+    curr_char = [caret[0] + 1, @lines[curr_line].length].min
+
+    loop do
+      next_word_boundary = @lines[curr_line].index(/\b/, curr_char)
+      if next_word_boundary
+        @caret = [next_word_boundary, curr_line]
+        break
+      else
+        curr_line = (curr_line + 1) % @lines.length
+        curr_char = 0
+        if curr_line == caret[1]
+          print "\a"
+          return
+        end
+      end
+    end
+
+    adjust_rect!
   end
 
   def prev_word
+    curr_line = caret[1]
+    curr_char = [caret[0] - 1, 0].max
+
+    loop do
+      prev_word_boundary = @lines[curr_line].rindex(/\b/, curr_char)
+      if prev_word_boundary
+        @caret = [prev_word_boundary, curr_line]
+        break
+      else
+        curre_line = (curr_line - 1) % @lines.length
+        curr_char = @lines[curr_line].length
+        if curr_line == caret[1]
+          print "\a"
+          return
+        end
+      end
+    end
+
+    adjust_rect!
   end
 
   def delete_at_caret
