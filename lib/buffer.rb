@@ -48,8 +48,8 @@ class Buffer
     @marks = {}
     @selections = {}
 
-    FileUtils.touch(@pathname)
     if @pathname
+      FileUtils.touch(@pathname)
       @lines = IO.readlines(filename).map(&:chomp)
       @lines = [''] if @lines == []
     end

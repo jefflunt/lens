@@ -17,7 +17,7 @@ require_relative './lib/buffer'
 config = Config.new(YAML.load(IO.read("#{ENV['LENSPATH']}/config.yml")))
 
 # start buffer server
-BUFF_SERVER_PORT = rand(63535) + 1000
+BUFF_SERVER_PORT = rand(63535) + 1024
 buff_server = Nobject::Server.new(BUFF_SERVER_PORT)
 log = TinyLog.new(filename: '/tmp/lens.log', buffering: false, background_thread: false)
 
