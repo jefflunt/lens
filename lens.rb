@@ -91,8 +91,8 @@ loop do
       buff.insert!(cmd_char)
     end
   when 'search'
-    stay_in_search = buff.search(cmd_char, cmd_char.ord)
-    mode = default_mode unless stay_in_search
+    exit_search = buff.search(cmd_char, cmd_char.ord)
+    mode = default_mode if exit_search
   else
     # handle cmds
     case cmd

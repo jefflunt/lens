@@ -64,18 +64,20 @@ class Buffer
   def search(cmd_char, cmd_char_ord)
     case cmd_char_ord
     when 27   # esc
-      return false
+      @search_str_tmp = nil
+      return true
     when 13   # ENTER
       @search_str = @search_str_tmp
       @search_str_tmp = nil
       find_next
 
-      return false
+      return true
     when 127  # backspace
       @search_str_tmp = (@search_str_tmp || '')[..-2]
+      return false
     else
       @search_str_tmp = (@search_str_tmp || '' ) + cmd_char
-      return true
+      return false
     end
   end
 
