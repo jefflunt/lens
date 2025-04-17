@@ -150,10 +150,23 @@ class Buffer
     modified!
   end
 
+  def clear_word
+binding.pry
+    end_of_word = @lines[caret[1]].index(/\b/, caret[0] + 1)
+    if end_of_word
+      upto = @lines[caret[1]][..caret[0]]
+      after_end_of_word = @lines[caret[1]][end_of_word..]
+      @lines[caret[1]] = upto + after_end_of_word
+    else
+      clear_to_eol
+    end
+
+    modified!
+  end
+
   def method_missing(method, *args, **kwargs, &block)
     print "\a"
   end
-
 
   def save!(via_thread: false)
     return unless @pathname
@@ -504,7 +517,7 @@ class Buffer
 
   def next_word
     curr_line = caret[1]
-    curr_char = [caret[0] + 1, @lines[curr_line].length].min
+    curr_char = caret[0] + 1
 
     loop do
       next_word_boundary = @lines[curr_line].index(/\b/, curr_char)
@@ -528,14 +541,19 @@ class Buffer
     curr_line = caret[1]
     curr_char = [caret[0] - 1, 0].max
 
+    if caret[0] == 0
+      curr_line = (caret[1] - 1) % @lines.length
+      curr_char = @lines[curr_line].length
+    end
+
     loop do
       prev_word_boundary = @lines[curr_line].rindex(/\b/, curr_char)
       if prev_word_boundary
         @caret = [prev_word_boundary, curr_line]
         break
       else
-        curre_line = (curr_line - 1) % @lines.length
-        curr_char = @lines[curr_line].length
+        curr_line = (curr_line - 1) % @lines.length
+        curr_char = @lines[curr_line].length - 1
         if curr_line == caret[1]
           print "\a"
           return

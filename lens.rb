@@ -97,16 +97,22 @@ loop do
     # handle cmds
     case cmd
     when Symbol     # ready subcmd
+      log.debug("entering subcommand #{cmd}")
       cmd = config.cmd(mode, cmd, $stdin.getch)
       cmd_str = cmd
     when Array      # wildcard
+      log.debug("in array command, sending to buffer: #{cmd.join(', ')}")
       buff.send(cmd.first, *cmd[1..])
     when String     # direct
+      log.debug("direct: #{cmd}")
       if cmd.start_with?('ms_')
+        log.debug("switching modes to #{cmd}")
         mode = cmd.sub('ms_', '')
       elsif Cmds.respond_to?(cmd)
+        log.debug("sending to Cmds #{cmd}")
         Cmds.send(cmd)
       else
+        log.debug("sending to buffer #{cmd}")
         buff.send(cmd)
       end
     when nil        # cmd not found
