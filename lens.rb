@@ -91,6 +91,9 @@ loop do
   when 'search'
     exit_search = buff.search(cmd_char, cmd_char.ord)
     mode = default_mode if exit_search
+  when 'filename'
+    exit_filename = buff.filename(cmd_char, cmd_char.ord)
+    mode = default_mode if exit_filename
   else
     # handle cmds
     case cmd

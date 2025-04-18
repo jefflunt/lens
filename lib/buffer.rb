@@ -24,7 +24,12 @@ class Buffer
   # formatter - a Rouge formatter
   # lexer - a Rouge lexer
   def initialize(formatter, lexer, filename='')
+    load_file
+  end
+
+  def load_file
     @pathname = !filename.nil? && !filename.empty? ? File.expand_path(filename) : nil
+    @pathname_tmp = nil
 
     @formatter = formatter
     @lexer = lexer
@@ -77,6 +82,26 @@ class Buffer
       return false
     else
       @search_str_tmp = (@search_str_tmp || '' ) + cmd_char
+      return false
+    end
+  end
+
+  def filename(cmd_char, cmd_char_ord)
+    case cmd_char_ord
+    when 27   # esc
+      @pathname_tmp = nil
+      return true
+    when 13   # ENTER
+      @pathname = @pathname_tmp.strip
+      @pathname_tmp = nil
+      load_file
+
+      return true
+    when 127  # backspace
+      @pathname_tmp = (@pathname_tmp || '')[..-2]
+      return false
+    else
+      @pathname_tmp = (@pathname_tmp || '' ) + cmd_char
       return false
     end
   end
@@ -386,6 +411,8 @@ class Buffer
       .map.with_index{|row, i| "#{(i + r + 1).to_s.rjust(@line_no_width)} #{substr_with_color(row, c,  c + w - @line_no_width - 2)}" }
       .map{|l| "#{l}\e[0K" } +
       Array.new(blank_lines) { "\e[0K" }
+  rescue Exception => e
+    binding.pry
   end
 
   # input - a String that may or may not contain ANSI color codes

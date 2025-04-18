@@ -25,6 +25,9 @@ modes:                        # the list of modes
     "?": help                     # open help - show keyboard shortcuts by default
     "`": exit                     # exit/quit
 
+    # leader key-like capabilities
+    " e": ms_filename             # read filename to load
+
     C: clear_to_eol               # clear from the cursor to the end of the line
     co: clipboard_open            # show the clipboard preview window for the current buffer
     cw: clear_word                # clear from the cursor to the end of the word
