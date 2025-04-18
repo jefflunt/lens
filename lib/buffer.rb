@@ -153,11 +153,11 @@ class Buffer
   end
 
   def clear_word
-binding.pry
     end_of_word = @lines[caret[1]].index(/\b/, caret[0] + 1)
     if end_of_word
       upto = @lines[caret[1]][..caret[0]]
       after_end_of_word = @lines[caret[1]][end_of_word..]
+binding.pry
       @lines[caret[1]] = upto + after_end_of_word
     else
       clear_to_eol
@@ -641,6 +641,8 @@ binding.pry
 
   def insert_newline_above
     @lines.insert(caret[1], '')
+    caret[0] = [0, @lines[caret[1]].length].max
+
     modified!
   end
 
