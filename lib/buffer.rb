@@ -381,8 +381,6 @@ binding.pry
         .map(&:chomp)
 
       unmodified!
-    else
-      @rendered_lines[r..(r + visible_lines - 1)]
     end
 
     @rendered_lines[r..(r + visible_lines - 1)]
