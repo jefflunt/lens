@@ -155,9 +155,8 @@ class Buffer
   def clear_word
     end_of_word = @lines[caret[1]].index(/\b/, caret[0] + 1)
     if end_of_word
-      upto = @lines[caret[1]][..caret[0]]
+      upto = @lines[caret[1]][...caret[0]]
       after_end_of_word = @lines[caret[1]][end_of_word..]
-binding.pry
       @lines[caret[1]] = upto + after_end_of_word
     else
       clear_to_eol
