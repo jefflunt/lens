@@ -21,14 +21,13 @@ log = TinyLog.new(filename: '/tmp/lens.log', buffering: false, background_thread
 
 Thread.new { buff_server.start! }
 
-filename = ARGV.shift
+path = ARGV.shift
 buff = Nobject::Local.new(
   'localhost',
   BUFF_SERVER_PORT,
   Buffer.new(
     Rouge::Formatters::Terminal256.new,
-    Rouge::Lexer.guess_by_filename(filename),
-    filename
+    path
   )
 )
 

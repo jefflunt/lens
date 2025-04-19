@@ -23,16 +23,16 @@ class Buffer
   #
   # formatter - a Rouge formatter
   # lexer - a Rouge lexer
-  def initialize(formatter, lexer, filename='')
-    load_file
+  def initialize(formatter, path='')
+    @formatter = formatter
+    load_file(path)
   end
 
-  def load_file
-    @pathname = !filename.nil? && !filename.empty? ? File.expand_path(filename) : nil
+  def load_file(path)
+    @pathname = !path.nil? && !path.empty? ? File.expand_path(path) : nil
     @pathname_tmp = nil
 
-    @formatter = formatter
-    @lexer = lexer
+    @lexer = Rouge::Lexer.guess_by_filename(path)
     @rect = [0, 0, 0, 0]    # the default slice is at the beginning of the buffer, and has a zero size
     @caret = [c, r]
     @max_x = 0
@@ -55,7 +55,7 @@ class Buffer
 
     if @pathname
       FileUtils.touch(@pathname)
-      @lines = IO.readlines(filename).map(&:chomp)
+      @lines = IO.readlines(@pathname).map(&:chomp)
       @lines = [''] if @lines == []
     end
 
@@ -411,8 +411,8 @@ class Buffer
       .map.with_index{|row, i| "#{(i + r + 1).to_s.rjust(@line_no_width)} #{substr_with_color(row, c,  c + w - @line_no_width - 2)}" }
       .map{|l| "#{l}\e[0K" } +
       Array.new(blank_lines) { "\e[0K" }
-  rescue Exception => e
-    binding.pry
+#  rescue Exception => e
+#    binding.pry
   end
 
   # input - a String that may or may not contain ANSI color codes

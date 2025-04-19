@@ -26,7 +26,7 @@ modes:                        # the list of modes
     "`": exit                     # exit/quit
 
     # leader key-like capabilities
-    " e": ms_filename             # read filename to load
+    " e": filename                # read filename to load
 
     C: clear_to_eol               # clear from the cursor to the end of the line
     co: clipboard_open            # show the clipboard preview window for the current buffer
