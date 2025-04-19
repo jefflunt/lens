@@ -413,8 +413,6 @@ class Buffer
       .map.with_index{|row, i| "#{(i + r + 1).to_s.rjust(@line_no_width)} #{substr_with_color(row, c,  c + w - @line_no_width - 2)}" }
       .map{|l| "#{l}\e[0K" } +
       Array.new(blank_lines) { "\e[0K" }
-#  rescue Exception => e
-#    binding.pry
   end
 
   # input - a String that may or may not contain ANSI color codes
