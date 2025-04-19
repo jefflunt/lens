@@ -8,6 +8,7 @@ modes:                        # the list of modes
     "4": ms_pan                   # mode switch to panning
     "9": ms_buffer_adj            # mode switch to buffer adjustment
     "0": ms_buffer_nav            # mode switch to buffer navigation
+    "/": ms_search                # mode switch to search
 
     "{": jump_left                # jump to the left of the buffer
     "[": jump_beg_of_line         # jump to the first non-whitespace character in the line
@@ -21,12 +22,11 @@ modes:                        # the list of modes
     "_": jump_to_bof              # jump to the beginning of the file
 
     "#": toggle_line_numbers      # toggle line numbers
-    "/": ms_search                # mode switch to search
     "?": help                     # open help - show keyboard shortcuts by default
     "`": exit                     # exit/quit
 
     # leader key-like capabilities
-    " e": filename                # read filename to load
+    e: ms_filename                # read filename to load
 
     C: clear_to_eol               # clear from the cursor to the end of the line
     co: clipboard_open            # show the clipboard preview window for the current buffer

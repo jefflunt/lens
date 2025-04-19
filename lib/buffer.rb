@@ -15,6 +15,8 @@ class Buffer
               :caret,
               :history,
               :marks,
+              :pathname,
+              :pathname_tmp,
               :search_str,
               :search_str_tmp,
               :selections
@@ -81,7 +83,7 @@ class Buffer
       @search_str_tmp = (@search_str_tmp || '')[..-2]
       return false
     else
-      @search_str_tmp = (@search_str_tmp || '' ) + cmd_char
+      @search_str_tmp = (@search_str_tmp || '') + cmd_char
       return false
     end
   end
@@ -94,14 +96,14 @@ class Buffer
     when 13   # ENTER
       @pathname = @pathname_tmp.strip
       @pathname_tmp = nil
-      load_file
+      load_file(@pathname)
 
       return true
     when 127  # backspace
       @pathname_tmp = (@pathname_tmp || '')[..-2]
       return false
     else
-      @pathname_tmp = (@pathname_tmp || '' ) + cmd_char
+      @pathname_tmp = (@pathname_tmp || '') + cmd_char
       return false
     end
   end

@@ -48,7 +48,17 @@ loop do
   print caret.hide
   print caret.move_to(0, 0)
   puts buff.rect_s
-  print "#{("#{mode.upcase} #{buff.max_x} #{cmd_char&.ord} #{cmd_str}").ljust(30).black.on_white}\e[0K #{buff.bytes} /#{buff.search_str_tmp || buff.search_str}#{mode == 'search' ? '█' : ''}/"
+
+  search_or_filename_str =  case mode
+                            when 'normal', 'search'
+                              "/#{buff.search_str_tmp || buff.search_str}#{mode == 'search' ? '█' : ''}/"
+                            when 'filename'
+                              ":#{buff.pathname_tmp || buff.pathname}#{mode == 'filename' ? '█' : ''}:"
+                            else
+                              ''
+                            end
+
+  print "#{("#{mode.upcase} #{buff.max_x} #{cmd_char&.ord} #{cmd_str}").ljust(30).black.on_white}\e[0K #{buff.bytes} #{search_or_filename_str}"
 
   cmd_char = nil
   cmd = nil
