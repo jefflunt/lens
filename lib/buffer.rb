@@ -25,13 +25,13 @@ class Buffer
   #
   # formatter - a Rouge formatter
   # lexer - a Rouge lexer
-  def initialize(formatter, path='')
+  def initialize(formatter, path=nil)
     @formatter = formatter
     load_file(path)
   end
 
   def load_file(path)
-    @pathname = !path.nil? && !path.empty? ? File.expand_path(path) : nil
+    @pathname = path.nil? ? nil : File.expand_path(path)
     @pathname_tmp = nil
 
     @lexer = Rouge::Lexer.guess_by_filename(path)
